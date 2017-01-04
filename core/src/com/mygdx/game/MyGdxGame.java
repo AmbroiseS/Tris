@@ -19,16 +19,16 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class MyGdxGame extends ApplicationAdapter {
     public static SpriteBatch batch;
     Texture j;
-    public static Texture unit_texture;
     private OrthographicCamera camera;
-    private Rectangle jpiece;
-    private Rectangle unit;
+
     public Rectangle jfalling;
     public T_Piece t_piece;
     public Vector3 touchPos;
     public ShapeRenderer renderer;
     private Viewport viewport;
+
     public  static int  squareSize=40;
+    public static int repeatTimeMillis=90;
 
     @Override
     public void create() {
@@ -37,12 +37,6 @@ public class MyGdxGame extends ApplicationAdapter {
         camera.setToOrtho(false, 540, 960);
         viewport = new FitViewport(540, 960, camera);
         j = new Texture("j_piece.jpg");
-        unit_texture = new Texture("unit.png");
-        setup_unit();
-
-        jpiece = new Rectangle();
-        jpiece.x = 540 / 2 - 32 / 2;
-        jpiece.y = 20;
 
         jfalling = new Rectangle();
 
@@ -83,7 +77,7 @@ public class MyGdxGame extends ApplicationAdapter {
         jfalling.y -= 150 * Gdx.graphics.getDeltaTime();
         setupMatrixlines();
         setupMatrixlines();
-        t_piece.inputUpdate();
+        t_piece.updateInput();
     }
 
 
@@ -123,12 +117,4 @@ public class MyGdxGame extends ApplicationAdapter {
 
     }
 
-    private void setup_unit() {
-        unit = new Rectangle();
-        unit.height = 45;
-        unit.width = 15;
-        unit.x = 50 + 5 * 15;
-        unit.y = 50 + 19 * 45;
-
-    }
 }
