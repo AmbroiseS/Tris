@@ -1,7 +1,8 @@
-package com.mygdx.game;
+package com.mygdx.game.Pieces;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.game.Tris;
 
 /**
  * Created by Sikanla on 04/01/2017.
@@ -22,15 +23,12 @@ public abstract class Tetronimoes {
     long timeRotate = 0;
 
     public Tetronimoes(){
-        squareSize=MyGdxGame.squareSize;
-        repeatTimeMillis=MyGdxGame.repeatTimeMillis;
+        this.squareSize= Tris.squareSize;
+        repeatTimeMillis= Tris.repeatTimeMillis;
         unit_texture = new Texture("unit.png");
     }
 
-    protected void update() {
-    }
+    public abstract void updateRotation();
 
-    protected void updateInput(){
-
-    }
+    public abstract void updateInput();
 }

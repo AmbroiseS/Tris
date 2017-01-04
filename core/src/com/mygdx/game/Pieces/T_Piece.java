@@ -1,9 +1,10 @@
-package com.mygdx.game;
+package com.mygdx.game.Pieces;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.mygdx.game.Tris;
 
 /**
  * Created by Sikanla on 03/01/2017.
@@ -18,41 +19,41 @@ public class T_Piece extends Tetronimoes {
     }
 
 
-    public void update() {
+    public void updateRotation() {
         switch (pieceRotation) {
             //each case for a rotation
 
             case (0):
 
-                MyGdxGame.batch.draw(unit_texture, square.x, square.y, squareSize, squareSize);
-                MyGdxGame.batch.draw(unit_texture, square.x - squareSize, square.y - squareSize, squareSize, squareSize);
-                MyGdxGame.batch.draw(unit_texture, square.x, square.y - squareSize, squareSize, squareSize);
-                MyGdxGame.batch.draw(unit_texture, square.x + squareSize, square.y - squareSize, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x, square.y, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x - squareSize, square.y - squareSize, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x, square.y - squareSize, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x + squareSize, square.y - squareSize, squareSize, squareSize);
                 break;
 
             case (1):
 
-                MyGdxGame.batch.draw(unit_texture, square.x, square.y - squareSize * 2, squareSize, squareSize);
-                MyGdxGame.batch.draw(unit_texture, square.x, square.y - squareSize, squareSize, squareSize);
-                MyGdxGame.batch.draw(unit_texture, square.x + squareSize, square.y - squareSize, squareSize, squareSize);
-                MyGdxGame.batch.draw(unit_texture, square.x, square.y, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x, square.y - squareSize * 2, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x, square.y - squareSize, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x + squareSize, square.y - squareSize, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x, square.y, squareSize, squareSize);
                 break;
 
 
             case (2):
 
-                MyGdxGame.batch.draw(unit_texture, square.x - squareSize, square.y - squareSize, squareSize, squareSize);
-                MyGdxGame.batch.draw(unit_texture, square.x, square.y - squareSize * 2, squareSize, squareSize);
-                MyGdxGame.batch.draw(unit_texture, square.x, square.y - squareSize, squareSize, squareSize);
-                MyGdxGame.batch.draw(unit_texture, square.x + squareSize, square.y - squareSize, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x - squareSize, square.y - squareSize, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x, square.y - squareSize * 2, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x, square.y - squareSize, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x + squareSize, square.y - squareSize, squareSize, squareSize);
                 break;
 
             case (3):
 
-                MyGdxGame.batch.draw(unit_texture, square.x - squareSize, square.y - squareSize, squareSize, squareSize);
-                MyGdxGame.batch.draw(unit_texture, square.x, square.y - squareSize * 2, squareSize, squareSize);
-                MyGdxGame.batch.draw(unit_texture, square.x, square.y - squareSize, squareSize, squareSize);
-                MyGdxGame.batch.draw(unit_texture, square.x, square.y, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x - squareSize, square.y - squareSize, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x, square.y - squareSize * 2, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x, square.y - squareSize, squareSize, squareSize);
+                Tris.batch.draw(unit_texture, square.x, square.y, squareSize, squareSize);
                 break;
 
         }
@@ -88,7 +89,9 @@ public class T_Piece extends Tetronimoes {
             }
 
         }
+
     }
+
 }
 
 

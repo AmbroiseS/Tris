@@ -10,25 +10,30 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Pieces.I_Piece;
+import com.mygdx.game.Pieces.T_Piece;
+import com.mygdx.game.Pieces.Tetronimoes;
 
-public class MyGdxGame extends ApplicationAdapter {
+import java.util.Random;
+
+public class Tris extends ApplicationAdapter {
     public static SpriteBatch batch;
-    Texture j;
+    private Texture j;
     private OrthographicCamera camera;
 
     public Rectangle jfalling;
-    public T_Piece t_piece;
-    public Vector3 touchPos;
+
     public ShapeRenderer renderer;
     private Viewport viewport;
 
-    public  static int  squareSize=40;
-    public static int repeatTimeMillis=90;
+    private Tetronimoes currentPiece;
+
+    public static int squareSize = 40;
+    public static int repeatTimeMillis = 90;
 
     @Override
     public void create() {
@@ -40,20 +45,46 @@ public class MyGdxGame extends ApplicationAdapter {
 
         jfalling = new Rectangle();
 
+        //to draw the matrix
         renderer = new ShapeRenderer();
         renderer.setProjectionMatrix(camera.combined);
         linesVert = new Array<Vector2>();
         linesHori = new Array<Vector2>();
 
-        touchPos = new Vector3();
+        //new random piece
+        randomPiece();
+
         fallj();
-        t_piece = new T_Piece();
 
 
     }
 
     public void resize(int width, int height) {
         viewport.update(width, height);
+    }
+
+    long o = 0;
+
+    private void testrandom() {
+        if (Gdx.input.isKeyPressed(Input.Keys.X) && TimeUtils.millis() - o > repeatTimeMillis) {
+            randomPiece();
+            o = TimeUtils.millis();
+        }
+
+    }
+
+    private void randomPiece() {
+        int nextpiece = (int) (Math.random() * 2);
+        switch (nextpiece) {
+            case 0:
+                currentPiece = new T_Piece();
+                break;
+            case 1:
+                currentPiece = new I_Piece();
+                break;
+        }
+
+
     }
 
     @Override
@@ -66,7 +97,7 @@ public class MyGdxGame extends ApplicationAdapter {
         camera.update();
 
         batch.begin();
-        t_piece.update();
+        currentPiece.updateRotation();
         batch.draw(j, jfalling.x, jfalling.y, 64, 64);
 
         batch.end();
@@ -76,8 +107,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
         jfalling.y -= 150 * Gdx.graphics.getDeltaTime();
         setupMatrixlines();
-        setupMatrixlines();
-        t_piece.updateInput();
+        testrandom();
+        currentPiece.updateInput();
     }
 
 
@@ -99,7 +130,6 @@ public class MyGdxGame extends ApplicationAdapter {
     public Array<Vector2> linesVert;
 
     private void setupMatrixlines() {
-
 
         renderer.begin(ShapeRenderer.ShapeType.Line);
         for (int i = 0; i != 11; i++) {
