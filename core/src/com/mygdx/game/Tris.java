@@ -18,31 +18,53 @@ import com.mygdx.game.Pieces.I_Piece;
 import com.mygdx.game.Pieces.T_Piece;
 import com.mygdx.game.Pieces.Tetronimoes;
 
-import java.util.Random;
-
 public class Tris extends ApplicationAdapter {
     public static SpriteBatch batch;
     private Texture j;
+    public static Texture unit_texture;
     private OrthographicCamera camera;
+    private Texture backgroundTexture;
+    private Rectangle jfalling;
 
-    public Rectangle jfalling;
-
-    public ShapeRenderer renderer;
+    private ShapeRenderer renderer;
     private Viewport viewport;
 
     private Tetronimoes currentPiece;
 
-    public static int squareSize = 40;
-    public static int repeatTimeMillis = 90;
+
+    //global settings
+    public static final int REPEATTIMEMILLIS = 90;
+
+    //rendering size
+    private final int WIDTH = 960;
+    private final int HEIGHT = 960;
+    private final int RATIO = WIDTH / HEIGHT;
+    private float uRight = 0;
+    private float vTop = 0;
+
+    //Matrix position
+    public static final int SQUARESIZE = 40;
+    public static final int LEFT_M = 50;
+    public static final int RIGHT_M = 50 + 10 * SQUARESIZE;
+    public static final int BOTTOM_M = 50;
+
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 540, 960);
-        viewport = new FitViewport(540, 960, camera);
-        j = new Texture("j_piece.jpg");
+        backgroundTexture = new Texture("congruent_outline.png");
+        backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        uRight = WIDTH * RATIO / backgroundTexture.getWidth();
+        vTop = HEIGHT * RATIO / backgroundTexture.getHeight();
 
+
+        //set up camera
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, WIDTH, HEIGHT);
+        viewport = new FitViewport(WIDTH, HEIGHT, camera);
+
+        j = new Texture("j_piece.jpg");
+        unit_texture = new Texture("unit.png");
         jfalling = new Rectangle();
 
         //to draw the matrix
@@ -55,8 +77,6 @@ public class Tris extends ApplicationAdapter {
         randomPiece();
 
         fallj();
-
-
     }
 
     public void resize(int width, int height) {
@@ -66,7 +86,7 @@ public class Tris extends ApplicationAdapter {
     long o = 0;
 
     private void testrandom() {
-        if (Gdx.input.isKeyPressed(Input.Keys.X) && TimeUtils.millis() - o > repeatTimeMillis) {
+        if (Gdx.input.isKeyPressed(Input.Keys.X) && TimeUtils.millis() - o > REPEATTIMEMILLIS) {
             randomPiece();
             o = TimeUtils.millis();
         }
@@ -90,16 +110,17 @@ public class Tris extends ApplicationAdapter {
     @Override
     public void render() {
         super.render();
-        Gdx.gl.glClearColor(0, 0, 1, 1);
+        //Gdx.gl.glClearColor(0, 0, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
         camera.update();
 
         batch.begin();
-        currentPiece.updateRotation();
+        Gdx.graphics.setTitle("" + Gdx.graphics.getFramesPerSecond());
+        batch.draw(backgroundTexture, 0, 0, WIDTH, HEIGHT, 0, 0, uRight, vTop);
+        currentPiece.drawPosition();
         batch.draw(j, jfalling.x, jfalling.y, 64, 64);
-
         batch.end();
 
         if (jfalling.y <= 0)
@@ -121,9 +142,8 @@ public class Tris extends ApplicationAdapter {
     }
 
     private void fallj() {
-
-        jfalling.x = 540 / 2 - 16;
-        jfalling.y = 960;
+        jfalling.x = (float) (0.75 * WIDTH);
+        jfalling.y = HEIGHT;
     }
 
     public Array<Vector2> linesHori;
@@ -133,13 +153,13 @@ public class Tris extends ApplicationAdapter {
 
         renderer.begin(ShapeRenderer.ShapeType.Line);
         for (int i = 0; i != 11; i++) {
-            linesVert.add(new Vector2(50 + i * squareSize, 50));
-            linesVert.add(new Vector2(50 + i * squareSize, 50 + 20 * squareSize));
+            linesVert.add(new Vector2(LEFT_M + i * SQUARESIZE, BOTTOM_M));
+            linesVert.add(new Vector2(LEFT_M + i * SQUARESIZE, BOTTOM_M + 20 * SQUARESIZE));
             renderer.line(linesVert.get(2 * i), linesVert.get(2 * i + 1));
         }
         for (int i = 0; i != 21; i++) {
-            linesHori.add(new Vector2(50, 50 + i * squareSize));
-            linesHori.add(new Vector2(50 + 10 * squareSize, 50 + i * squareSize));
+            linesHori.add(new Vector2(LEFT_M, BOTTOM_M + i * SQUARESIZE));
+            linesHori.add(new Vector2(LEFT_M + 10 * SQUARESIZE, 50 + i * SQUARESIZE));
             renderer.line(linesHori.get(i * 2), linesHori.get(2 * i + 1));
 
         }

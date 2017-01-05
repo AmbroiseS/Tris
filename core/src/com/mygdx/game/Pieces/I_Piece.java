@@ -13,43 +13,23 @@ import com.mygdx.game.Tris;
 public class I_Piece extends Tetronimoes {
     public I_Piece() {
         square = new Rectangle();
-        square.x = 50 + 5 * squareSize;
-        square.y = 50 + 19 * squareSize;
+        x = 50 + 5 * SQSIZE;
+        y = 50 + 19 * SQSIZE;
     }
-
-    @Override
-    public void updateRotation() {
-        switch (pieceRotation) {
-            case (0):
-                Tris.batch.draw(unit_texture, square.x, square.y, squareSize, squareSize);
-                Tris.batch.draw(unit_texture, square.x - squareSize, square.y, squareSize, squareSize);
-                Tris.batch.draw(unit_texture, square.x - 2 * squareSize, square.y, squareSize, squareSize);
-                Tris.batch.draw(unit_texture, square.x + squareSize, square.y, squareSize, squareSize);
-                break;
-
-            case (1):
-                Tris.batch.draw(unit_texture, square.x, square.y, squareSize, squareSize);
-                Tris.batch.draw(unit_texture, square.x, square.y - squareSize, squareSize, squareSize);
-                Tris.batch.draw(unit_texture, square.x, square.y - 2 * squareSize, squareSize, squareSize);
-                Tris.batch.draw(unit_texture, square.x, square.y + squareSize, squareSize, squareSize);
-                break;
-        }
-    }
-
 
     @Override
     public void updateInput() {
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && TimeUtils.millis() - timeLeft > repeatTimeMillis) {
-            if (square.x > 50 + squareSize) {
-                square.x -= squareSize;
+            if (x > 50 + SQSIZE) {
+                x -= SQSIZE;
                 timeLeft = TimeUtils.millis();
             }
 
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && TimeUtils.millis() - timeRight > repeatTimeMillis) {
-            if (square.x < 50 - squareSize + 9 * squareSize) {
-                square.x += squareSize;
+            if (x < 50 - SQSIZE + 9 * SQSIZE) {
+                x += SQSIZE;
                 timeRight = TimeUtils.millis();
             }
         }
@@ -63,13 +43,51 @@ public class I_Piece extends Tetronimoes {
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && TimeUtils.millis() - timeDown > repeatTimeMillis) {
-            if (square.y > 50 + squareSize) {
-                square.y -= squareSize;
+            if (true) {
+                y -= SQSIZE;
                 timeDown = TimeUtils.millis();
             }
 
         }
 
 
+    }
+
+    @Override
+    public int[][] rotation0() {
+        xy1234test=xy1234;
+        xy1234test[0][0]=x;
+        xy1234test[0][1]=y;
+        xy1234test[0][2]=x-SQSIZE;
+        xy1234test[0][3]=y;
+        xy1234test[1][0]=x-2*SQSIZE;
+        xy1234test[1][1]=y;
+        xy1234test[1][2]=x+SQSIZE;
+        xy1234test[1][3]=y;
+        return xy1234test;
+    }
+
+    @Override
+    public int[][] rotation1() {
+        xy1234test=xy1234;
+        xy1234test[0][0]=x;
+        xy1234test[0][1]=y;
+        xy1234test[0][2]=x;
+        xy1234test[0][3]=y+SQSIZE;
+        xy1234test[1][0]=x;
+        xy1234test[1][1]=y-SQSIZE;
+        xy1234test[1][2]=x;
+        xy1234test[1][3]=y-2*SQSIZE;
+        return xy1234test;
+    }
+
+    @Override
+    public int[][] rotation2() {
+        return new int[0][];
+    }
+
+    @Override
+    public int[][] rotation3() {
+        return new int[0][];
     }
 }
