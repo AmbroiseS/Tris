@@ -86,21 +86,22 @@ public abstract class Tetronimoes {
                 xy1234test[1][2] < RIGHT_M;
     }
 
-    public boolean isDownPossible(){
+    public boolean isDownPossible() {
         return xy1234test[0][1] > BOTTOM_M &&
                 xy1234test[0][3] > BOTTOM_M &&
                 xy1234test[1][1] > BOTTOM_M &&
                 xy1234test[1][3] > BOTTOM_M;
     }
-    public boolean isRotationPossible(int nextPositionNumber){
-        if(nextPositionNumber==0)
-            xy1234test=rotation0();
-        if(nextPositionNumber==1)
-            xy1234test=rotation1();
-        if(nextPositionNumber==2)
-            xy1234test=rotation2();
-        if(nextPositionNumber==3)
-            xy1234test=rotation3();
+
+    public boolean isRotationPossible(int nextPositionNumber) {
+        if (nextPositionNumber == 0)
+            xy1234test = rotation0();
+        if (nextPositionNumber == 1)
+            xy1234test = rotation1();
+        if (nextPositionNumber == 2)
+            xy1234test = rotation2();
+        if (nextPositionNumber == 3)
+            xy1234test = rotation3();
 
         return xy1234test[0][1] >= BOTTOM_M &&
                 xy1234test[0][3] >= BOTTOM_M &&
@@ -113,8 +114,8 @@ public abstract class Tetronimoes {
                 xy1234test[1][2] <= RIGHT_M &&
 
                 xy1234test[0][0] >= LEFT_M &&
-                xy1234test[0][2] >=LEFT_M &&
-                xy1234test[1][0] >=LEFT_M &&
+                xy1234test[0][2] >= LEFT_M &&
+                xy1234test[1][0] >= LEFT_M &&
                 xy1234test[1][2] >= LEFT_M;
 
     }
@@ -127,7 +128,28 @@ public abstract class Tetronimoes {
 
     public abstract int[][] rotation3();
 
-    public int[][] getPiecePosition(){
+    public void updateRight() {
+        xy1234[0][0] += SQSIZE;
+        xy1234[0][2] += SQSIZE;
+        xy1234[1][0] += SQSIZE;
+        xy1234[1][2] += SQSIZE;
+    }
+
+    public void updateLeft() {
+        xy1234[0][0] -= SQSIZE;
+        xy1234[0][2] -= SQSIZE;
+        xy1234[1][0] -= SQSIZE;
+        xy1234[1][2] -= SQSIZE;
+    }
+
+    public void updateDown() {
+        xy1234[0][1] -= SQSIZE;
+        xy1234[0][3] -= SQSIZE;
+        xy1234[1][1] -= SQSIZE;
+        xy1234[1][3] -= SQSIZE;
+    }
+
+    public int[][] getPiecePosition() {
         return xy1234;
     }
 

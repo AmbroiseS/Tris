@@ -21,6 +21,7 @@ public class T_Piece extends Tetronimoes {
     public void updateInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && TimeUtils.millis() - timeLeft > repeatTimeMillis) {
             if (isLeftPossible()) {
+                updateLeft();
                 x -= SQSIZE;
                 timeLeft = TimeUtils.millis();
             }
@@ -28,12 +29,13 @@ public class T_Piece extends Tetronimoes {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && TimeUtils.millis() - timeRight > repeatTimeMillis) {
             if (isRightPossible()) {
+                updateRight();
                 x += SQSIZE;
                 timeRight = TimeUtils.millis();
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP) && TimeUtils.millis() - timeRotate > repeatTimeMillis) {
-            if (isRotationPossible(pieceRotation==3? 0: pieceRotation+1 )) {
+            if (isRotationPossible(pieceRotation == 3 ? 0 : pieceRotation + 1)) {
                 if (pieceRotation == 3) {
                     pieceRotation = 0;
                     timeRotate = TimeUtils.millis();
@@ -45,6 +47,7 @@ public class T_Piece extends Tetronimoes {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && TimeUtils.millis() - timeDown > repeatTimeMillis) {
             if (isDownPossible()) {
+                updateDown();
                 y -= SQSIZE;
                 timeDown = TimeUtils.millis();
             }
