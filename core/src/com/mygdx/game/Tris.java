@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Pieces.I_Piece;
+import com.mygdx.game.Pieces.O_Piece;
 import com.mygdx.game.Pieces.T_Piece;
 import com.mygdx.game.Pieces.Tetronimoes;
 
@@ -94,13 +95,16 @@ public class Tris extends ApplicationAdapter {
     }
 
     private void randomPiece() {
-        int nextpiece = (int) (Math.random() * 2);
+        int nextpiece = (int) (Math.random() * 3);
         switch (nextpiece) {
             case 0:
                 currentPiece = new T_Piece();
                 break;
             case 1:
                 currentPiece = new I_Piece();
+                break;
+            case 2:
+                currentPiece = new O_Piece();
                 break;
         }
 
