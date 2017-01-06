@@ -184,21 +184,31 @@ public class Tris extends ApplicationAdapter {
 
     private int[][] temp = new int[2][4];
     private int[][] matrix = new int[20][10];
+    private int linesCleared;
 
-    private void clearLines(){
-        for (int i=0;i!=20;i++){
-            int sum=0;
-            for(int j=0;j!=10;j++){
-                sum+=matrix[i][j];
+    private void clearLines() {
+        linesCleared = 0;
+        for (int i = 0; i != 20; i++) {
+            int sum = 0;
+            for (int j = 0; j != 10; j++) {
+                sum += matrix[i][j];
             }
-            if (sum==10){
-                for(int j=0;j!=10;j++){
-                    matrix[i][j]=0;
-                }
-
+            if (sum == 10) {
+                linesCleared += 1;
+                matrix = removeRowFromMatrix(matrix, i);
+                i-=2;
             }
 
         }
+    }
+
+    public int[][] removeRowFromMatrix(int[][] array, int row) {
+        int[][] arrayToReturn = new int[20][10];
+        for (int i = 0; i < row; i++)
+            arrayToReturn[i+1] = array[i];
+        for (int i = row+1; i < 20; i++)
+            arrayToReturn[i] = array[i];
+        return arrayToReturn;
     }
 
     private void renderMatrix() {
