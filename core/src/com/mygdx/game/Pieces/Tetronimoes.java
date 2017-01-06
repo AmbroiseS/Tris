@@ -18,7 +18,7 @@ public abstract class Tetronimoes {
     Texture unit_texture;
 
     int[][] xy1234 = new int[2][4];
-    int[][] xy1234test=new int[2][4];
+    int[][] xy1234test = new int[2][4];
 
     int x, y, x1, y1, x2, y2, x3, y3, x4, y4;
 
@@ -32,36 +32,36 @@ public abstract class Tetronimoes {
     public Tetronimoes() {
         this.SQSIZE = Tris.SQUARESIZE;
         repeatTimeMillis = Tris.REPEATTIMEMILLIS;
-        unit_texture=Tris.unit_texture;
+        unit_texture = Tris.unit_texture;
         LEFT_M = Tris.LEFT_M;
         RIGHT_M = Tris.RIGHT_M - SQSIZE;
-        BOTTOM_M = Tris.RIGHT_M;
+        BOTTOM_M = Tris.BOTTOM_M;
     }
 
     public void drawPosition() {
         switch (pieceRotation) {
             //each case for a rotation
             case 0:
-                xy1234=rotation0();
+                xy1234 = rotation0();
                 break;
             case 1:
-                xy1234=rotation1();
+                xy1234 = rotation1();
                 break;
             case 2:
-                xy1234=rotation2();
+                xy1234 = rotation2();
                 break;
             case 3:
-                xy1234=rotation3();
+                xy1234 = rotation3();
                 break;
         }
-        x1=xy1234[0][0];
-        y1=xy1234[0][1];
-        x2=xy1234[0][2];
-        y2=xy1234[0][3];
-        x3=xy1234[1][0];
-        y3=xy1234[1][1];
-        x4=xy1234[1][2];
-        y4=xy1234[1][3];
+        x1 = xy1234[0][0];
+        y1 = xy1234[0][1];
+        x2 = xy1234[0][2];
+        y2 = xy1234[0][3];
+        x3 = xy1234[1][0];
+        y3 = xy1234[1][1];
+        x4 = xy1234[1][2];
+        y4 = xy1234[1][3];
 
         Tris.batch.draw(unit_texture, x1, y1, SQSIZE, SQSIZE);
         Tris.batch.draw(unit_texture, x2, y2, SQSIZE, SQSIZE);
@@ -73,11 +73,52 @@ public abstract class Tetronimoes {
 
 
     public boolean isLeftPossible() {
-        return x1 != LEFT_M && x2 != LEFT_M && x3 != LEFT_M && x4 != LEFT_M;
+        return xy1234test[0][0] != LEFT_M &&
+                xy1234test[0][2] != LEFT_M &&
+                xy1234test[1][0] != LEFT_M &&
+                xy1234test[1][2] != LEFT_M;
     }
 
     public boolean isRightPossible() {
-        return x1 < RIGHT_M && x2 < RIGHT_M && x3 < RIGHT_M && x4 < RIGHT_M;
+        return xy1234test[0][0] < RIGHT_M &&
+                xy1234test[0][2] < RIGHT_M &&
+                xy1234test[1][0] < RIGHT_M &&
+                xy1234test[1][2] < RIGHT_M;
+    }
+
+    public boolean isDownPossible(){
+        return xy1234test[0][1] > BOTTOM_M &&
+                xy1234test[0][3] > BOTTOM_M &&
+                xy1234test[1][1] > BOTTOM_M &&
+                xy1234test[1][3] > BOTTOM_M;
+    }
+    public boolean isRotationPossible(int nextPositionNumber){
+        if(nextPositionNumber==0)
+            xy1234test=rotation0();
+        if(nextPositionNumber==1)
+            xy1234test=rotation1();
+        if(nextPositionNumber==2)
+            xy1234test=rotation2();
+        if(nextPositionNumber==3)
+            xy1234test=rotation3();
+
+        return xy1234test[0][1] >= BOTTOM_M &&
+                xy1234test[0][3] >= BOTTOM_M &&
+                xy1234test[1][1] >= BOTTOM_M &&
+                xy1234test[1][3] >= BOTTOM_M &&
+
+                xy1234test[0][0] <= RIGHT_M &&
+                xy1234test[0][2] <= RIGHT_M &&
+                xy1234test[1][0] <= RIGHT_M &&
+                xy1234test[1][2] <= RIGHT_M &&
+
+                xy1234test[0][0] >= LEFT_M &&
+                xy1234test[0][2] >=LEFT_M &&
+                xy1234test[1][0] >=LEFT_M &&
+                xy1234test[1][2] >= LEFT_M;
+
+
+
     }
 
     public abstract int[][] rotation0();
