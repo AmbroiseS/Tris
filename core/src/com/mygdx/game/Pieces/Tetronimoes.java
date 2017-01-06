@@ -117,8 +117,6 @@ public abstract class Tetronimoes {
                 xy1234test[1][0] >=LEFT_M &&
                 xy1234test[1][2] >= LEFT_M;
 
-
-
     }
 
     public abstract int[][] rotation0();
@@ -128,6 +126,10 @@ public abstract class Tetronimoes {
     public abstract int[][] rotation2();
 
     public abstract int[][] rotation3();
+
+    public int[][] getPiecePosition(){
+        return xy1234;
+    }
 
 
 }

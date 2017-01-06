@@ -19,16 +19,21 @@ import com.mygdx.game.Pieces.O_Piece;
 import com.mygdx.game.Pieces.T_Piece;
 import com.mygdx.game.Pieces.Tetronimoes;
 
+import java.util.Arrays;
+
+import static com.badlogic.gdx.utils.JsonValue.ValueType.array;
+
 public class Tris extends ApplicationAdapter {
     public static SpriteBatch batch;
     private Texture j;
-    public static Texture unit_texture;
-    private OrthographicCamera camera;
     private Texture backgroundTexture;
-    private Rectangle jfalling;
-
-    private ShapeRenderer renderer;
+    public static Texture unit_texture;
     private Viewport viewport;
+    private OrthographicCamera camera;
+
+    private Rectangle jfalling;
+    private ShapeRenderer renderer;
+
 
     private Tetronimoes currentPiece;
 
@@ -113,26 +118,30 @@ public class Tris extends ApplicationAdapter {
 
     @Override
     public void render() {
-        super.render();
-        //Gdx.gl.glClearColor(0, 0, 1, 1);
+        //super.render();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
         camera.update();
 
         batch.begin();
+
         Gdx.graphics.setTitle("" + Gdx.graphics.getFramesPerSecond());
         batch.draw(backgroundTexture, 0, 0, WIDTH, HEIGHT, 0, 0, uRight, vTop);
+
         currentPiece.drawPosition();
+
         batch.draw(j, jfalling.x, jfalling.y, 64, 64);
+
         batch.end();
+
 
         if (jfalling.y <= 0)
             fallj();
-
         jfalling.y -= 150 * Gdx.graphics.getDeltaTime();
         setupMatrixlines();
         testrandom();
+        dropAndSave();
         currentPiece.updateInput();
     }
 
@@ -168,6 +177,27 @@ public class Tris extends ApplicationAdapter {
 
         }
         renderer.end();
+
+    }
+
+    private int[][] temp = new int[2][4];
+    private int[][] matrice = new int[10][20];
+
+    private void dropAndSave() {
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && TimeUtils.millis() - o > REPEATTIMEMILLIS) {
+            temp = currentPiece.getPiecePosition();
+
+            for (int i = 0; i != 2; i++) {
+                for (int j = 0; j != 4;) {
+                    matrice[(((temp[i][j])-LEFT_M)/SQUARESIZE)][(((temp[i][j+1])-BOTTOM_M)/SQUARESIZE)]=1;
+                    j+=2;
+                }
+            }
+            System.out.println(Arrays.deepToString(matrice));
+
+            randomPiece();
+            o = TimeUtils.millis();
+        }
 
     }
 
