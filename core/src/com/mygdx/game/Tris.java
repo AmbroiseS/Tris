@@ -69,7 +69,7 @@ public class Tris extends ApplicationAdapter {
         viewport = new FitViewport(WIDTH, HEIGHT, camera);
 
         j = new Texture("j_piece.jpg");
-        unit_square_texture=new Texture("unit_square.png");
+        unit_square_texture = new Texture("unit_square.png");
         unit_texture = new Texture("unit.png");
         jfalling = new Rectangle();
 
@@ -143,6 +143,7 @@ public class Tris extends ApplicationAdapter {
         setupMatrixlines();
         testrandom();
         dropAndSave();
+        clearLines();
         currentPiece.updateInput();
     }
 
@@ -184,12 +185,27 @@ public class Tris extends ApplicationAdapter {
     private int[][] temp = new int[2][4];
     private int[][] matrix = new int[20][10];
 
-    private void renderMatrix(){
+    private void clearLines(){
+        for (int i=0;i!=20;i++){
+            int sum=0;
+            for(int j=0;j!=10;j++){
+                sum+=matrix[i][j];
+            }
+            if (sum==10){
+                for(int j=0;j!=10;j++){
+                    matrix[i][j]=0;
+                }
 
-        for(int j=0;j!=20;j++){
-            for(int i=0;i!=10;i++){
-                if (matrix[j][i]==1)
-                    batch.draw(unit_square_texture,SQUARESIZE*i+LEFT_M,SQUARESIZE*(19-j)+BOTTOM_M,SQUARESIZE,SQUARESIZE);
+            }
+
+        }
+    }
+
+    private void renderMatrix() {
+        for (int j = 0; j != 20; j++) {
+            for (int i = 0; i != 10; i++) {
+                if (matrix[j][i] == 1)
+                    batch.draw(unit_square_texture, SQUARESIZE * i + LEFT_M, SQUARESIZE * (19 - j) + BOTTOM_M, SQUARESIZE, SQUARESIZE);
             }
         }
     }
@@ -199,10 +215,10 @@ public class Tris extends ApplicationAdapter {
             temp = currentPiece.getPiecePosition();
 
             for (int i = 0; i != 2; i++) {
-                for (int j = 0; j != 4;) {
+                for (int j = 0; j != 4; ) {
                     //matrix[y,x]=1-->
-                    matrix[19-(((temp[i][j+1])-BOTTOM_M)/SQUARESIZE)][(((temp[i][j])-LEFT_M)/SQUARESIZE)]=1;
-                    j+=2;
+                    matrix[19 - (((temp[i][j + 1]) - BOTTOM_M) / SQUARESIZE)][(((temp[i][j]) - LEFT_M) / SQUARESIZE)] = 1;
+                    j += 2;
                 }
             }
             System.out.println(Arrays.deepToString(matrix));
