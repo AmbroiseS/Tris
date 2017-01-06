@@ -13,8 +13,8 @@ public class O_Piece extends Tetronimoes {
 
     public O_Piece() {
         square = new Rectangle();
-        x = 50 + 4 * SQSIZE;
-        y = 50 + 19 * SQSIZE;
+        x = LEFT_M + 4 * SQSIZE;
+        y = BOTTOM_M + 19 * SQSIZE;
     }
 
     @Override
@@ -40,8 +40,6 @@ public class O_Piece extends Tetronimoes {
                 y -= SQSIZE;
                 timeDown = TimeUtils.millis();
             }
-
-
         }
     }
 
