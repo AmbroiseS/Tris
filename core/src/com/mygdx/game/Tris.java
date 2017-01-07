@@ -123,8 +123,6 @@ public class Tris extends ApplicationAdapter {
 
     }
 
-    private int k;
-
     private void hardDrop() {
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && TimeUtils.millis() - o > REPEATTIMEMILLIS) {
             int[][] temp2 = currentPiece.getPiecePosition();
@@ -132,6 +130,7 @@ public class Tris extends ApplicationAdapter {
 
             int a, b, c, d;
             int e, f, g, h;
+            boolean dropFully = false;
 
             //get the x
             a = (temp2[0][0] - LEFT_M) / SQUARESIZE;
@@ -146,29 +145,35 @@ public class Tris extends ApplicationAdapter {
             h = 19 - ((temp2[1][3] - BOTTOM_M) / SQUARESIZE);
             int max = max(e, f, g, h);
 
-            k = 0;
-            for (int y = max; y != 19; y++) {
+            int k = 0;
+
+            for (int y = max; y != 20; y++) {
 
                 if (mat[e + k][a] == 1 || mat[f + k][b] == 1 || mat[g + k][c] == 1 || mat[h + k][d] == 1) {
-                    System.out.println("temp2= "+temp2[0][1]);
 
-                    temp2[0][1] -= (k-1)*SQUARESIZE;
-                    temp2[0][3] -= (k-1)*SQUARESIZE;
-                    temp2[1][1] -= (k-1)*SQUARESIZE;
-                    temp2[1][3] -= (k-1)*SQUARESIZE;
-                    System.out.println("temp2= "+temp2[0][1]);
+                    temp2[0][1] -= (k - 1) * SQUARESIZE;
+                    temp2[0][3] -= (k - 1) * SQUARESIZE;
+                    temp2[1][1] -= (k - 1) * SQUARESIZE;
+                    temp2[1][3] -= (k - 1) * SQUARESIZE;
+
                     matrix.saveInMatrix(temp2);
+
                     currentPiece = randomPiece.getRandomPiece();
                     break;
 
                 }
                 k++;
+                if(y==19)
+                    dropFully=true;
+            }
 
-                System.out.print(k);
-
-                //matrix.saveInMatrix(temp);
-                //currentPiece = randomPiece.getRandomPiece();
-
+            if (dropFully) {
+                temp2[0][1] -= (19-max) * SQUARESIZE;
+                temp2[0][3] -= (19-max) * SQUARESIZE;
+                temp2[1][1] -= (19-max) * SQUARESIZE;
+                temp2[1][3] -= (19-max) * SQUARESIZE;
+                matrix.saveInMatrix(temp2);
+                currentPiece = randomPiece.getRandomPiece();
             }
             o = TimeUtils.millis();
         }
