@@ -13,7 +13,7 @@ public class T_Piece extends Tetronimoes {
 
     public T_Piece() {
         square = new Rectangle();
-        x = LEFT_M + 5 * SQSIZE;
+        x = LEFT_M + 4 * SQSIZE;
         y = BOTTOM_M + 19 * SQSIZE;
     }
 
