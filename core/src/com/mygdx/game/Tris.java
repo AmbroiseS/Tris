@@ -8,41 +8,27 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.Pieces.I_Piece;
-import com.mygdx.game.Pieces.J_Piece;
-import com.mygdx.game.Pieces.L_Piece;
-import com.mygdx.game.Pieces.O_Piece;
-import com.mygdx.game.Pieces.S_Piece;
-import com.mygdx.game.Pieces.T_Piece;
 import com.mygdx.game.Pieces.Tetronimoes;
-import com.mygdx.game.Pieces.Z_Piece;
-
-import java.util.Arrays;
 
 public class Tris extends ApplicationAdapter {
     public static SpriteBatch batch;
-    private Texture j;
+
     private Texture backgroundTexture;
     public static Texture unit_texture;
-    private Texture unit_square_texture;
+
     private Viewport viewport;
     private OrthographicCamera camera;
-
-    private Rectangle jfalling;
     private ShapeRenderer renderer;
 
-
     private Tetronimoes currentPiece;
-
+    private RandomPiece randomPiece;
+    private Matrix matrix;
 
     //global settings
-    public static final int REPEATTIMEMILLIS = 90;
+    public static final int REPEATTIMEMILLIS = 100;
 
     //rendering size
     private final int WIDTH = 960;
@@ -66,27 +52,21 @@ public class Tris extends ApplicationAdapter {
         uRight = WIDTH * RATIO / backgroundTexture.getWidth();
         vTop = HEIGHT * RATIO / backgroundTexture.getHeight();
 
-
         //set up camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, WIDTH, HEIGHT);
         viewport = new FitViewport(WIDTH, HEIGHT, camera);
 
-        j = new Texture("j_piece.jpg");
-        unit_square_texture = new Texture("unit_square.png");
         unit_texture = new Texture("unit.png");
-        jfalling = new Rectangle();
-
-        //to draw the matrix
-        renderer = new ShapeRenderer();
-        renderer.setProjectionMatrix(camera.combined);
-        linesVert = new Array<Vector2>();
-        linesHori = new Array<Vector2>();
 
         //new random piece
-        randomPiece();
+        randomPiece=new RandomPiece();
+        currentPiece = randomPiece.getRandomPiece();
 
-        fallj();
+        //Matrix
+        renderer = new ShapeRenderer();
+        renderer.setProjectionMatrix(camera.combined);
+        matrix = new Matrix(LEFT_M, BOTTOM_M, SQUARESIZE, batch,renderer);
     }
 
     public void resize(int width, int height) {
@@ -95,42 +75,6 @@ public class Tris extends ApplicationAdapter {
 
     long o = 0;
 
-    private void testrandom() {
-        if (Gdx.input.isKeyPressed(Input.Keys.X) && TimeUtils.millis() - o > REPEATTIMEMILLIS) {
-            randomPiece();
-            o = TimeUtils.millis();
-        }
-
-    }
-
-    private void randomPiece() {
-        int nextpiece = (int) (Math.random() * 7);
-        switch (nextpiece) {
-            case 0:
-                currentPiece = new T_Piece();
-                break;
-            case 1:
-                currentPiece = new I_Piece();
-                break;
-            case 2:
-                currentPiece = new O_Piece();
-                break;
-            case 3:
-                currentPiece = new J_Piece();
-                break;
-            case 4:
-                currentPiece = new L_Piece();
-                break;
-            case 5:
-                currentPiece = new Z_Piece();
-                break;
-            case 6:
-                currentPiece = new S_Piece();
-                break;
-        }
-
-
-    }
 
     @Override
     public void render() {
@@ -140,26 +84,22 @@ public class Tris extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
         camera.update();
 
+        //draw
         batch.begin();
-
+        //get fps
         Gdx.graphics.setTitle("" + Gdx.graphics.getFramesPerSecond());
+        //background texture
         batch.draw(backgroundTexture, 0, 0, WIDTH, HEIGHT, 0, 0, uRight, vTop);
 
         currentPiece.drawPosition();
-        renderMatrix();
-
-        batch.draw(j, jfalling.x, jfalling.y, 64, 64);
+        matrix.renderMatrix();
 
         batch.end();
 
 
-        if (jfalling.y <= 0)
-            fallj();
-        jfalling.y -= 150 * Gdx.graphics.getDeltaTime();
-        setupMatrixlines();
-        testrandom();
-        dropAndSave();
-        clearLines();
+        hardDrop();
+        matrix.setupMatrixLines()
+                .clearLines();
         currentPiece.updateInput();
     }
 
@@ -167,92 +107,22 @@ public class Tris extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        j.dispose();
         renderer.dispose();
+        unit_texture.dispose();
 
     }
 
-    private void fallj() {
-        jfalling.x = (float) (0.75 * WIDTH);
-        jfalling.y = HEIGHT;
-    }
-
-    public Array<Vector2> linesHori;
-    public Array<Vector2> linesVert;
-
-    private void setupMatrixlines() {
-
-        renderer.begin(ShapeRenderer.ShapeType.Line);
-        for (int i = 0; i != 11; i++) {
-            linesVert.add(new Vector2(LEFT_M + i * SQUARESIZE, BOTTOM_M));
-            linesVert.add(new Vector2(LEFT_M + i * SQUARESIZE, BOTTOM_M + 20 * SQUARESIZE));
-            renderer.line(linesVert.get(2 * i), linesVert.get(2 * i + 1));
-        }
-        for (int i = 0; i != 21; i++) {
-            linesHori.add(new Vector2(LEFT_M, BOTTOM_M + i * SQUARESIZE));
-            linesHori.add(new Vector2(LEFT_M + 10 * SQUARESIZE, 50 + i * SQUARESIZE));
-            renderer.line(linesHori.get(i * 2), linesHori.get(2 * i + 1));
-
-        }
-        renderer.end();
-
-    }
-
-    private int[][] temp = new int[2][4];
-    private int[][] matrix = new int[20][10];
-    private int linesCleared;
-
-    private void clearLines() {
-        linesCleared = 0;
-        for (int i = 0; i != 20; i++) {
-            int sum = 0;
-            for (int j = 0; j != 10; j++) {
-                sum += matrix[i][j];
-            }
-            if (sum == 10) {
-                linesCleared += 1;
-                matrix = removeRowFromMatrix(matrix, i);
-                i-=2;
-            }
-
-        }
-    }
-
-    public int[][] removeRowFromMatrix(int[][] array, int row) {
-        int[][] arrayToReturn = new int[20][10];
-        for (int i = 0; i < row; i++)
-            arrayToReturn[i+1] = array[i];
-        for (int i = row+1; i < 20; i++)
-            arrayToReturn[i] = array[i];
-        return arrayToReturn;
-    }
-
-    private void renderMatrix() {
-        for (int j = 0; j != 20; j++) {
-            for (int i = 0; i != 10; i++) {
-                if (matrix[j][i] == 1)
-                    batch.draw(unit_square_texture, SQUARESIZE * i + LEFT_M, SQUARESIZE * (19 - j) + BOTTOM_M, SQUARESIZE, SQUARESIZE);
-            }
-        }
-    }
-
-    private void dropAndSave() {
+    private void hardDrop() {
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && TimeUtils.millis() - o > REPEATTIMEMILLIS) {
-            temp = currentPiece.getPiecePosition();
+            int[][] temp = currentPiece.getPiecePosition();
 
-            for (int i = 0; i != 2; i++) {
-                for (int j = 0; j != 4; ) {
-                    //matrix[y,x]=1-->
-                    matrix[19 - (((temp[i][j + 1]) - BOTTOM_M) / SQUARESIZE)][(((temp[i][j]) - LEFT_M) / SQUARESIZE)] = 1;
-                    j += 2;
-                }
-            }
-            System.out.println(Arrays.deepToString(matrix));
-
-            randomPiece();
+            matrix.save(temp);
+            currentPiece = randomPiece.getRandomPiece();
             o = TimeUtils.millis();
         }
-
     }
 
+
 }
+
+

@@ -15,7 +15,7 @@ public abstract class Tetronimoes {
 
     Rectangle square;
     long repeatTimeMillis;
-    Texture unit_texture;
+    private Texture unit_texture;
 
     int[][] xy1234 = new int[2][4];
     int[][] xy1234test = new int[2][4];
