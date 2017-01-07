@@ -60,20 +60,20 @@ public class Tris extends ApplicationAdapter {
         unit_texture = new Texture("unit.png");
 
         //new random piece
-        randomPiece=new RandomPiece();
+        randomPiece = new RandomPiece();
         currentPiece = randomPiece.getRandomPiece();
 
         //Matrix
         renderer = new ShapeRenderer();
         renderer.setProjectionMatrix(camera.combined);
-        matrix = new Matrix(LEFT_M, BOTTOM_M, SQUARESIZE, batch,renderer);
+        matrix = new Matrix(LEFT_M, BOTTOM_M, SQUARESIZE, batch, renderer);
     }
 
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
 
-    long o = 0;
+    private long o = 0;
 
 
     @Override
@@ -98,6 +98,7 @@ public class Tris extends ApplicationAdapter {
 
 
         hardDrop();
+        testKE();
         matrix.setupMatrixLines()
                 .clearLines();
         currentPiece.updateInput();
@@ -112,16 +113,74 @@ public class Tris extends ApplicationAdapter {
 
     }
 
+    private void testKE() {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && TimeUtils.millis() - o > REPEATTIMEMILLIS) {
+            int[][] temp = currentPiece.getPiecePosition();
+            matrix.saveInMatrix(temp);
+            currentPiece = randomPiece.getRandomPiece();
+            o = TimeUtils.millis();
+        }
+
+    }
+
+    private int k;
+
     private void hardDrop() {
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && TimeUtils.millis() - o > REPEATTIMEMILLIS) {
-            int[][] temp = currentPiece.getPiecePosition();
+            int[][] temp2 = currentPiece.getPiecePosition();
+            int[][] mat = matrix.getMatrix();
 
-            matrix.save(temp);
-            currentPiece = randomPiece.getRandomPiece();
+            int a, b, c, d;
+            int e, f, g, h;
+
+            //get the x
+            a = (temp2[0][0] - LEFT_M) / SQUARESIZE;
+            b = (temp2[0][2] - LEFT_M) / SQUARESIZE;
+            c = (temp2[1][0] - LEFT_M) / SQUARESIZE;
+            d = (temp2[1][2] - LEFT_M) / SQUARESIZE;
+
+            //get the y
+            e = 19 - ((temp2[0][1] - BOTTOM_M) / SQUARESIZE);
+            f = 19 - ((temp2[0][3] - BOTTOM_M) / SQUARESIZE);
+            g = 19 - ((temp2[1][1] - BOTTOM_M) / SQUARESIZE);
+            h = 19 - ((temp2[1][3] - BOTTOM_M) / SQUARESIZE);
+            int max = max(e, f, g, h);
+
+            k = 0;
+            for (int y = max; y != 19; y++) {
+
+                if (mat[e + k][a] == 1 || mat[f + k][b] == 1 || mat[g + k][c] == 1 || mat[h + k][d] == 1) {
+                    System.out.println("temp2= "+temp2[0][1]);
+
+                    temp2[0][1] -= (k-1)*SQUARESIZE;
+                    temp2[0][3] -= (k-1)*SQUARESIZE;
+                    temp2[1][1] -= (k-1)*SQUARESIZE;
+                    temp2[1][3] -= (k-1)*SQUARESIZE;
+                    System.out.println("temp2= "+temp2[0][1]);
+                    matrix.saveInMatrix(temp2);
+                    currentPiece = randomPiece.getRandomPiece();
+                    break;
+
+                }
+                k++;
+
+                System.out.print(k);
+
+                //matrix.saveInMatrix(temp);
+                //currentPiece = randomPiece.getRandomPiece();
+
+            }
             o = TimeUtils.millis();
         }
     }
 
+    private static int max(int a, int b, int c, int d) {
+
+        int tmp1 = a > b ? a : b;
+        int tmp2 = c > d ? c : d;
+
+        return tmp1 > tmp2 ? tmp1 : tmp2;
+    }
 
 }
 
