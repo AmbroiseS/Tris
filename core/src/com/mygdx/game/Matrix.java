@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.audio.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -21,6 +22,8 @@ public class Matrix {
 
     private ShapeRenderer renderer;
 
+    private Sound sound;
+
     public Matrix(int left_m, int bottom_m, int square_size, SpriteBatch batch, ShapeRenderer renderer) {
         this.batch = batch;
         unit_square_texture = new Texture("unit_square.png");
@@ -30,6 +33,8 @@ public class Matrix {
         linesVert = new Array<Vector2>();
         linesHori = new Array<Vector2>();
         this.renderer = renderer;
+        sound=new Sound();
+
 
     }
 
@@ -95,6 +100,7 @@ public class Matrix {
 
 
     public Matrix clearLines() {
+        boolean b=false;
         linesCleared = 0;
         for (int i = 0; i != 20; i++) {
             int sum = 0;
@@ -102,12 +108,15 @@ public class Matrix {
                 sum += matrix[i][j];
             }
             if (sum == 10) {
+                b=true;
                 linesCleared += 1;
                 matrix = removeRowFromMatrix(matrix, i);
                 i -= 1;
             }
 
         }
+        if (b)
+            sound.playBreakLines();
         return this;
     }
 

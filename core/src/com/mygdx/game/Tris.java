@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,6 +27,7 @@ public class Tris extends ApplicationAdapter {
     private Tetronimoes currentPiece;
     private RandomPiece randomPiece;
     private Matrix matrix;
+    private Sound sound;
 
     //global settings
     public static final int REPEATTIMEMILLIS = 80;
@@ -62,6 +64,9 @@ public class Tris extends ApplicationAdapter {
         //new random piece
         randomPiece = new RandomPiece();
         currentPiece = randomPiece.getRandomPiece();
+
+        //Sound
+        sound=new Sound();
 
         //Matrix
         renderer = new ShapeRenderer();
@@ -165,6 +170,7 @@ public class Tris extends ApplicationAdapter {
                 matrix.saveInMatrix(temp2);
                 currentPiece = randomPiece.getRandomPiece();
             }
+            sound.playDropPiece();
         }
     }
 
