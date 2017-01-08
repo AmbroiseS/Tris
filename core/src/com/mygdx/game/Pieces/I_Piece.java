@@ -34,14 +34,12 @@ public class I_Piece extends Tetronimoes {
                 timeRight = TimeUtils.millis();
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) && TimeUtils.millis() - timeRotate > rotationRepeatTime) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
             if (isRotationPossible(pieceRotation == 1 ? 0 : 1)) {
                 if (pieceRotation == 1) {
                     pieceRotation = 0;
-                    timeRotate = TimeUtils.millis();
                 } else {
                     pieceRotation += 1;
-                    timeRotate = TimeUtils.millis();
                 }
             }
         }

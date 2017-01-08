@@ -16,7 +16,6 @@ public abstract class Tetronimoes {
 
     Rectangle square;
     long repeatTimeMillis;
-    long rotationRepeatTime;
 
     private Texture unit_texture;
 
@@ -32,12 +31,10 @@ public abstract class Tetronimoes {
     long timeDown = 0;
     long timeLeft = 0;
     long timeRight = 0;
-    long timeRotate = 0;
 
     public Tetronimoes() {
         this.SQSIZE = Tris.SQUARESIZE;
         repeatTimeMillis = Tris.REPEATTIMEMILLIS;
-        rotationRepeatTime=Tris.RotationREPEATTIME;
         unit_texture = Tris.unit_texture;
         LEFT_M = Tris.LEFT_M;
         RIGHT_M = Tris.RIGHT_M - SQSIZE;
@@ -129,15 +126,17 @@ public abstract class Tetronimoes {
         g = 19 - ((xy1234[1][1] - BOTTOM_M) / SQSIZE);
         h = 19 - ((xy1234[1][3] - BOTTOM_M) / SQSIZE);
 
+        xy1234test = xy1234;
+
         //test borders first
         if (xy1234test[0][0] == RIGHT_M || xy1234test[0][2] == RIGHT_M ||
                 xy1234test[1][0] == RIGHT_M || xy1234test[1][2] == RIGHT_M) {
             return false;
-        }
-
+        } else {
         //test for other pieces
-        if (mat[e][a + 1] == 1 || mat[f][b + 1] == 1 || mat[g][c + 1] == 1 || mat[h][d + 1] == 1) {
-            return false;
+            if (mat[e][a + 1] == 1 || mat[f][b + 1] == 1 || mat[g][c + 1] == 1 || mat[h][d + 1] == 1) {
+                return false;
+            }
         }
 
         return true;
@@ -159,12 +158,9 @@ public abstract class Tetronimoes {
         f = 19 - ((xy1234[0][3] - BOTTOM_M) / SQSIZE);
         g = 19 - ((xy1234[1][1] - BOTTOM_M) / SQSIZE);
         h = 19 - ((xy1234[1][3] - BOTTOM_M) / SQSIZE);
-/*
-        xy1234test=xy1234;
-        xy1234test[0][1]=xy1234[0][1]-SQSIZE;
-        xy1234test[0][3]=xy1234[0][3]-SQSIZE;
-        xy1234test[1][1]=xy1234[1][1]-SQSIZE;
-        xy1234test[1][3]=xy1234[1][3]-SQSIZE;*/
+
+        xy1234test = xy1234;
+
 
         //test borders first
         if (xy1234test[0][1] == BOTTOM_M || xy1234test[0][3] == BOTTOM_M ||
@@ -173,7 +169,7 @@ public abstract class Tetronimoes {
         }
 
         //test for other pieces
-        if (mat[e+1][a ] == 1 || mat[f+1][b ] == 1 || mat[g+1][c ] == 1 || mat[h+1][d ] == 1) {
+        if (mat[e + 1][a] == 1 || mat[f + 1][b] == 1 || mat[g + 1][c] == 1 || mat[h + 1][d] == 1) {
             return false;
         }
 

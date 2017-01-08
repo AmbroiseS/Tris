@@ -29,7 +29,6 @@ public class Tris extends ApplicationAdapter {
 
     //global settings
     public static final int REPEATTIMEMILLIS = 100;
-    public static final int RotationREPEATTIME=250;
 
     //rendering size
     private final int WIDTH = 960;
