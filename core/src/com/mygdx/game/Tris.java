@@ -179,7 +179,7 @@ public class Tris extends ApplicationAdapter {
         }
     }
 
-    private static int max(int a, int b, int c, int d) {
+    public static int max(int a, int b, int c, int d) {
 
         int tmp1 = a > b ? a : b;
         int tmp2 = c > d ? c : d;

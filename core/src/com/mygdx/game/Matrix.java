@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class Matrix {
 
-    private int[][] matrix = new int[20][10];
+    public static int[][] matrix = new int[20][10];
 
     private int linesCleared;
     private int BOTTOM_M, SQUARESIZE, LEFT_M;
@@ -39,7 +39,7 @@ public class Matrix {
         for (int i = 0; i != 2; i++) {
             for (int j = 0; j != 4; ) {
                 //matrix[y,x]=1-->
-                matrix[19-(((temp[i][j + 1]) - BOTTOM_M) / SQUARESIZE)][(((temp[i][j]) - LEFT_M) / SQUARESIZE)] = 1;
+                matrix[19 - (((temp[i][j + 1]) - BOTTOM_M) / SQUARESIZE)][(((temp[i][j]) - LEFT_M) / SQUARESIZE)] = 1;
                 j += 2;
             }
         }
@@ -47,7 +47,7 @@ public class Matrix {
 
 
     }
-    public int[][] saveInSpecificMat(int[][] temp,int [][] mat) {
+  /*  public int[][] saveInSpecificMat(int[][] temp,int [][] mat) {
 
         for (int i = 0; i != 2; i++) {
             for (int j = 0; j != 4; ) {
@@ -59,7 +59,7 @@ public class Matrix {
         return mat;
 
 
-    }
+    }*/
 
     private Array<Vector2> linesHori;
     private Array<Vector2> linesVert;
@@ -87,7 +87,7 @@ public class Matrix {
         for (int j = 0; j != 20; j++) {
             for (int i = 0; i != 10; i++) {
                 if (matrix[j][i] == 1)
-                    batch.draw(unit_square_texture, SQUARESIZE * i + LEFT_M, SQUARESIZE * (19-j) + BOTTOM_M, SQUARESIZE, SQUARESIZE);
+                    batch.draw(unit_square_texture, SQUARESIZE * i + LEFT_M, SQUARESIZE * (19 - j) + BOTTOM_M, SQUARESIZE, SQUARESIZE);
             }
         }
         return this;
@@ -118,7 +118,7 @@ public class Matrix {
         return arrayToReturn;
     }
 
-    public int[][] getMatrix(){
+    public int[][] getMatrix() {
         return matrix;
     }
 
