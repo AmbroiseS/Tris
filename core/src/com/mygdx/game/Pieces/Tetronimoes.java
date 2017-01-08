@@ -16,6 +16,8 @@ public abstract class Tetronimoes {
 
     Rectangle square;
     long repeatTimeMillis;
+    long rotationRepeatTime;
+
     private Texture unit_texture;
 
     int[][] xy1234 = new int[2][4];
@@ -35,11 +37,13 @@ public abstract class Tetronimoes {
     public Tetronimoes() {
         this.SQSIZE = Tris.SQUARESIZE;
         repeatTimeMillis = Tris.REPEATTIMEMILLIS;
+        rotationRepeatTime=Tris.RotationREPEATTIME;
         unit_texture = Tris.unit_texture;
         LEFT_M = Tris.LEFT_M;
         RIGHT_M = Tris.RIGHT_M - SQSIZE;
         BOTTOM_M = Tris.BOTTOM_M;
         mat = Matrix.matrix;
+
     }
 
     public void drawPosition() {

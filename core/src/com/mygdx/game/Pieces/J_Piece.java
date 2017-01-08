@@ -34,7 +34,7 @@ public class J_Piece extends Tetronimoes {
                 timeRight = TimeUtils.millis();
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) && TimeUtils.millis() - timeRotate > repeatTimeMillis) {
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) && TimeUtils.millis() - timeRotate > rotationRepeatTime) {
             if (isRotationPossible(pieceRotation == 3 ? 0 : pieceRotation + 1)) {
                 if (pieceRotation == 3) {
                     pieceRotation = 0;
