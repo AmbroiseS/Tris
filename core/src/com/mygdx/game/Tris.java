@@ -111,6 +111,7 @@ public class Tris extends ApplicationAdapter {
 
     @Override
     public void dispose() {
+        sound.dispose();
         batch.dispose();
         renderer.dispose();
         unit_texture.dispose();

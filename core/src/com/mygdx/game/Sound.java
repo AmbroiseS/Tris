@@ -26,5 +26,9 @@ public class Sound {
     public void playDropPiece() {
         dropPiece.play();
     }
+    public void dispose(){
+        breaklines.dispose();
+        dropPiece.dispose();
+    }
 
 }
