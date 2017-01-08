@@ -28,7 +28,7 @@ public class Tris extends ApplicationAdapter {
     private Matrix matrix;
 
     //global settings
-    public static final int REPEATTIMEMILLIS = 100;
+    public static final int REPEATTIMEMILLIS = 80;
 
     //rendering size
     private final int WIDTH = 960;
@@ -98,7 +98,6 @@ public class Tris extends ApplicationAdapter {
 
 
         hardDrop();
-        testKE();
         matrix.setupMatrixLines()
                 .clearLines();
         currentPiece.updateInput();
@@ -113,18 +112,9 @@ public class Tris extends ApplicationAdapter {
 
     }
 
-    private void testKE() {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && TimeUtils.millis() - o > REPEATTIMEMILLIS) {
-            int[][] temp = currentPiece.getPiecePosition();
-            matrix.saveInMatrix(temp);
-            currentPiece = randomPiece.getRandomPiece();
-            o = TimeUtils.millis();
-        }
-
-    }
 
     private void hardDrop() {
-        if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && TimeUtils.millis() - o > REPEATTIMEMILLIS) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) ) {
             int[][] temp2 = currentPiece.getPiecePosition();
             int[][] mat = matrix.getMatrix();
 
@@ -175,7 +165,6 @@ public class Tris extends ApplicationAdapter {
                 matrix.saveInMatrix(temp2);
                 currentPiece = randomPiece.getRandomPiece();
             }
-            o = TimeUtils.millis();
         }
     }
 

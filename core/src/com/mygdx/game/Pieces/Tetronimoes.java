@@ -94,6 +94,8 @@ public abstract class Tetronimoes {
         g = 19 - ((xy1234[1][1] - BOTTOM_M) / SQSIZE);
         h = 19 - ((xy1234[1][3] - BOTTOM_M) / SQSIZE);
 
+        xy1234test=xy1234;
+
         //test borders first
         if (a > 9 || b > 9 || c > 9 || d > 9) {
             return false;
