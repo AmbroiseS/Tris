@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class I_Piece extends Tetronimoes {
     public I_Piece() {
         square = new Rectangle();
-        x = LEFT_M + 4 * SQSIZE;
+        x = LEFT_M + 5 * SQSIZE;
         y = BOTTOM_M + 19 * SQSIZE;
     }
 
@@ -75,7 +75,7 @@ public class I_Piece extends Tetronimoes {
         xy1234test[0][0] = x;
         xy1234test[0][1] = y;
         xy1234test[0][2] = x;
-        xy1234test[0][3] = y + SQSIZE;
+        xy1234test[0][3] = y -3* SQSIZE;
         xy1234test[1][0] = x;
         xy1234test[1][1] = y - SQSIZE;
         xy1234test[1][2] = x;
