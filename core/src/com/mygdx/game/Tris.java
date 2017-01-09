@@ -28,6 +28,7 @@ public class Tris extends ApplicationAdapter {
     private Preview preview;
     private Matrix matrix;
     private Sound sound;
+    private Ghost ghost;
 
     //global settings
     public static final int REPEATTIMEMILLIS = 80;
@@ -64,6 +65,7 @@ public class Tris extends ApplicationAdapter {
         //new random piece
         preview=new Preview(unit_texture,SQUARESIZE);
         currentPiece = preview.getNextPiece();
+        ghost=new Ghost();
 
         //Sound
         sound=new Sound();
@@ -97,6 +99,7 @@ public class Tris extends ApplicationAdapter {
         batch.draw(backgroundTexture, 0, 0, WIDTH, HEIGHT, 0, 0, uRight, vTop);
 
         preview.displayPreview();
+        ghost.drawGhost(currentPiece.getPiecePosition());
 
         currentPiece.drawPosition();
         matrix.renderMatrix();
@@ -117,6 +120,7 @@ public class Tris extends ApplicationAdapter {
         batch.dispose();
         renderer.dispose();
         unit_texture.dispose();
+        ghost.dispose();
 
     }
 
