@@ -39,7 +39,6 @@ public abstract class Tetronimoes {
         LEFT_M = Tris.LEFT_M;
         RIGHT_M = Tris.RIGHT_M - SQSIZE;
         BOTTOM_M = Tris.BOTTOM_M;
-        mat = Matrix.matrix;
         xy1234 = rotation0();
 
     }
@@ -75,10 +74,15 @@ public abstract class Tetronimoes {
         Tris.batch.draw(unit_texture, x4, y4, SQSIZE, SQSIZE);
     }
 
+    private void getCurrentMatrix(){
+        mat = Matrix.matrix;
+    }
+
     public abstract void updateInput();
 
 
     public boolean isLeftPossible() {
+        getCurrentMatrix();
         int a, b, c, d;
         int e, f, g, h;
 
@@ -94,33 +98,32 @@ public abstract class Tetronimoes {
         g = 19 - ((xy1234[1][1] - BOTTOM_M) / SQSIZE);
         h = 19 - ((xy1234[1][3] - BOTTOM_M) / SQSIZE);
 
-        xy1234test=xy1234;
+        xy1234test = xy1234;
 
         //test borders first
-        if (a > 9 || b > 9 || c > 9 || d > 9) {
+
+        if (xy1234test[0][0] == LEFT_M || xy1234test[0][2] == LEFT_M ||
+                xy1234test[1][0] == LEFT_M || xy1234test[1][2] == LEFT_M) {
             return false;
         } else {
-            if (a < 0 || b < 0 || c < 0 || d < 0) {
+            if (a > 9 || b > 9 || c > 9 || d > 9) {
                 return false;
             } else {
-                if (e > 20 || f > 20 || g > 20 || h > 20) {
+                if (a < 0 || b < 0 || c < 0 || d < 0) {
                     return false;
                 } else {
-                    if (xy1234test[0][0] == LEFT_M || xy1234test[0][2] == LEFT_M ||
-                            xy1234test[1][0] == LEFT_M || xy1234test[1][2] == LEFT_M) {
+                    if (e > 20 || f > 20 || g > 20 || h > 20) {
                         return false;
+                    } else {
+
+
+                        //test for other pieces
+                        if (mat[e][a - 1] == 1 || mat[f][b - 1] == 1 || mat[g][c - 1] == 1 || mat[h][d - 1] == 1) {
+                            return false;
+                        }
+                        return true;
+
                     }
-
-                    //test for other pieces
-                    if (mat[e][a - 1] == 1 || mat[f][b - 1] == 1 || mat[g][c - 1] == 1 || mat[h][d - 1] == 1) {
-                        return false;
-                    }
-
-                    return true;
-
-
-
-                    
                 }
             }
         }
@@ -128,6 +131,7 @@ public abstract class Tetronimoes {
 
 
     public boolean isRightPossible() {
+        getCurrentMatrix();
 
         int a, b, c, d;
         int e, f, g, h;
@@ -147,17 +151,18 @@ public abstract class Tetronimoes {
         xy1234test = xy1234;
 
         //test borders first
-        if (a > 9 || b > 9 || c > 9 || d > 9) {
+
+        if (xy1234test[0][0] == RIGHT_M || xy1234test[0][2] == RIGHT_M ||
+                xy1234test[1][0] == RIGHT_M || xy1234test[1][2] == RIGHT_M) {
             return false;
         } else {
-            if (a < 0 || b < 0 || c < 0 || d < 0) {
+            if (a > 9 || b > 9 || c > 9 || d > 9) {
                 return false;
             } else {
-                if (e > 20 || f > 20 || g > 20 || h > 20) {
+                if (a < 0 || b < 0 || c < 0 || d < 0) {
                     return false;
                 } else {
-                    if (xy1234test[0][0] == RIGHT_M || xy1234test[0][2] == RIGHT_M ||
-                            xy1234test[1][0] == RIGHT_M || xy1234test[1][2] == RIGHT_M) {
+                    if (e > 20 || f > 20 || g > 20 || h > 20) {
                         return false;
                     } else {
                         //test for other pieces
@@ -173,6 +178,7 @@ public abstract class Tetronimoes {
     }
 
     public boolean isDownPossible() {
+        getCurrentMatrix();
 
         int a, b, c, d;
         int e, f, g, h;
@@ -193,27 +199,28 @@ public abstract class Tetronimoes {
 
 
         //test borders first
-        if (a > 9 || b > 9 || c > 9 || d > 9) {
+
+        if (xy1234test[0][1] == BOTTOM_M || xy1234test[0][3] == BOTTOM_M ||
+                xy1234test[1][1] == BOTTOM_M || xy1234test[1][3] == BOTTOM_M) {
             return false;
         } else {
-            if (a < 0 || b < 0 || c < 0 || d < 0) {
+            if (a > 9 || b > 9 || c > 9 || d > 9) {
                 return false;
             } else {
-                if (e > 20 || f > 20 || g > 20 || h > 20) {
+                if (a < 0 || b < 0 || c < 0 || d < 0) {
                     return false;
                 } else {
-                    if (xy1234test[0][1] == BOTTOM_M || xy1234test[0][3] == BOTTOM_M ||
-                            xy1234test[1][1] == BOTTOM_M || xy1234test[1][3] == BOTTOM_M) {
+                    if (e > 20 || f > 20 || g > 20 || h > 20) {
                         return false;
+                    } else {
+                        //test for other pieces
+                        if (mat[e + 1][a] == 1 || mat[f + 1][b] == 1 || mat[g + 1][c] == 1 || mat[h + 1][d] == 1) {
+                            return false;
+                        }
+
+                        return true;
+
                     }
-
-                    //test for other pieces
-                    if (mat[e + 1][a] == 1 || mat[f + 1][b] == 1 || mat[g + 1][c] == 1 || mat[h + 1][d] == 1) {
-                        return false;
-                    }
-
-                    return true;
-
                 }
             }
         }
@@ -221,6 +228,8 @@ public abstract class Tetronimoes {
 
 
     public boolean isRotationPossible(int nextPositionNumber) {
+        getCurrentMatrix();
+
         if (nextPositionNumber == 0)
             xy1234test = rotation0();
         if (nextPositionNumber == 1)
