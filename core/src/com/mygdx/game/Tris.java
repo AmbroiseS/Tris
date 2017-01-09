@@ -25,7 +25,7 @@ public class Tris extends ApplicationAdapter {
     private ShapeRenderer renderer;
 
     private Tetronimoes currentPiece;
-    private RandomPiece randomPiece;
+    private Preview preview;
     private Matrix matrix;
     private Sound sound;
 
@@ -62,8 +62,8 @@ public class Tris extends ApplicationAdapter {
         unit_texture = new Texture("unit.png");
 
         //new random piece
-        randomPiece = new RandomPiece();
-        currentPiece = randomPiece.getRandomPiece();
+        preview=new Preview(unit_texture,SQUARESIZE);
+        currentPiece = preview.getNextPiece();
 
         //Sound
         sound=new Sound();
@@ -95,6 +95,8 @@ public class Tris extends ApplicationAdapter {
         Gdx.graphics.setTitle("" + Gdx.graphics.getFramesPerSecond());
         //background texture
         batch.draw(backgroundTexture, 0, 0, WIDTH, HEIGHT, 0, 0, uRight, vTop);
+
+        preview.displayPreview();
 
         currentPiece.drawPosition();
         matrix.renderMatrix();
@@ -154,7 +156,7 @@ public class Tris extends ApplicationAdapter {
 
                     matrix.saveInMatrix(temp2);
 
-                    currentPiece = randomPiece.getRandomPiece();
+                    currentPiece=preview.getNextPiece();
                     break;
 
                 }
@@ -169,7 +171,7 @@ public class Tris extends ApplicationAdapter {
                 temp2[1][1] -= (19-max) * SQUARESIZE;
                 temp2[1][3] -= (19-max) * SQUARESIZE;
                 matrix.saveInMatrix(temp2);
-                currentPiece = randomPiece.getRandomPiece();
+                currentPiece=preview.getNextPiece();
             }
             sound.playDropPiece();
         }
