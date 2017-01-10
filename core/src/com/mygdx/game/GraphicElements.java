@@ -19,7 +19,7 @@ public class GraphicElements {
         SQUARESIZE=Tris.SQUARESIZE;
         LEFT_M=Tris.LEFT_M;
         font = new BitmapFont();
-        font.getData().setScale((float) SQUARESIZE/19,(float) SQUARESIZE/19);
+
     }
 
     public void draw(){
@@ -27,7 +27,11 @@ public class GraphicElements {
     }
 
     private void drawTexts() {
+        //Todo better scaled text!
+        font.getData().setScale((float) SQUARESIZE/19,(float) SQUARESIZE/19);
         font.draw(batch,"Hold",SQUARESIZE+SQUARESIZE/2,BOTTOM_M+15*SQUARESIZE+SQUARESIZE/2);
+        font.getData().setScale((float) SQUARESIZE/16,(float) SQUARESIZE/16);
+        font.draw(batch,"Line Race",LEFT_M+3*SQUARESIZE,BOTTOM_M+21*SQUARESIZE+SQUARESIZE/2);
 
     }
     public void dispose(){
