@@ -29,22 +29,23 @@ public class Tris extends ApplicationAdapter {
     private Matrix matrix;
     private Sound sound;
     private Ghost ghost;
+    private GraphicElements graphicElements;
 
     //global settings
     public static final int REPEATTIMEMILLIS = 80;
 
     //rendering size
-    private final int WIDTH = 960;
-    private final int HEIGHT = 960;
-    private final int RATIO = WIDTH / HEIGHT;
+    public static final int WIDTH = 960;
+    public static final int HEIGHT = 960;
+    public static final int RATIO = WIDTH / HEIGHT;
     private float uRight = 0;
     private float vTop = 0;
 
     //Matrix position
     public static final int SQUARESIZE = 40;
-    public static final int LEFT_M = 50;
-    public static final int RIGHT_M = 50 + 10 * SQUARESIZE;
-    public static final int BOTTOM_M = 50;
+    public static final int LEFT_M = 200;
+    public static final int RIGHT_M = LEFT_M + 10 * SQUARESIZE;
+    public static final int BOTTOM_M = 40;
 
 
     @Override
@@ -74,6 +75,8 @@ public class Tris extends ApplicationAdapter {
         renderer = new ShapeRenderer();
         renderer.setProjectionMatrix(camera.combined);
         matrix = new Matrix(LEFT_M, BOTTOM_M, SQUARESIZE, batch, renderer);
+        //graphics
+        graphicElements=new GraphicElements(batch);
     }
 
     public void resize(int width, int height) {
@@ -103,6 +106,7 @@ public class Tris extends ApplicationAdapter {
 
         currentPiece.drawPosition();
         matrix.renderMatrix();
+        graphicElements.draw();
 
         batch.end();
 
@@ -121,6 +125,7 @@ public class Tris extends ApplicationAdapter {
         renderer.dispose();
         unit_texture.dispose();
         ghost.dispose();
+        graphicElements.dispose();
 
     }
 
