@@ -74,7 +74,8 @@ public class Tris extends ApplicationAdapter {
         //Matrix
         renderer = new ShapeRenderer();
         renderer.setProjectionMatrix(camera.combined);
-        matrix = new Matrix(LEFT_M, BOTTOM_M, SQUARESIZE, batch, renderer);
+        matrix = new Matrix(batch,renderer);
+
         //graphics
         graphicElements=new GraphicElements(batch);
     }
@@ -125,6 +126,7 @@ public class Tris extends ApplicationAdapter {
         renderer.dispose();
         unit_texture.dispose();
         ghost.dispose();
+        matrix.dispose();
         graphicElements.dispose();
 
     }

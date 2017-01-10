@@ -1,6 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.audio.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -24,18 +23,16 @@ public class Matrix {
 
     private Sound sound;
 
-    public Matrix(int left_m, int bottom_m, int square_size, SpriteBatch batch, ShapeRenderer renderer) {
+    public Matrix(SpriteBatch batch, ShapeRenderer renderer) {
         this.batch = batch;
         unit_square_texture = new Texture("unit_square.png");
-        BOTTOM_M = bottom_m;
-        SQUARESIZE = square_size;
-        LEFT_M = left_m;
+        BOTTOM_M=Tris.BOTTOM_M;
+        SQUARESIZE=Tris.SQUARESIZE;
+        LEFT_M=Tris.LEFT_M;
         linesVert = new Array<Vector2>();
         linesHori = new Array<Vector2>();
         this.renderer = renderer;
-        sound=new Sound();
-
-
+        sound = new Sound();
     }
 
 
@@ -79,14 +76,23 @@ public class Matrix {
         }
         for (int i = 0; i != 21; i++) {
             linesHori.add(new Vector2(LEFT_M, BOTTOM_M + i * SQUARESIZE));
-            linesHori.add(new Vector2(LEFT_M + 10 * SQUARESIZE, 50 + i * SQUARESIZE));
+            linesHori.add(new Vector2(LEFT_M + 10 * SQUARESIZE, BOTTOM_M + i * SQUARESIZE));
             renderer.line(linesHori.get(i * 2), linesHori.get(2 * i + 1));
-
         }
         renderer.end();
+        //drawing hold
+        for (int i = 0; i != 4; i++) {
+            renderer.begin(ShapeRenderer.ShapeType.Line);
+            renderer.rect(SQUARESIZE / 2, BOTTOM_M + 16 * SQUARESIZE, 140, 140);
+            renderer.rect(SQUARESIZE / 2 + 6, BOTTOM_M + 16 * SQUARESIZE + 6, 128, 128);
+            renderer.end();
+        }
+
         return this;
 
     }
+
+
 
     public Matrix renderMatrix() {
         for (int j = 0; j != 20; j++) {
@@ -100,7 +106,7 @@ public class Matrix {
 
 
     public Matrix clearLines() {
-        boolean b=false;
+        boolean b = false;
         linesCleared = 0;
         for (int i = 0; i != 20; i++) {
             int sum = 0;
@@ -108,7 +114,7 @@ public class Matrix {
                 sum += matrix[i][j];
             }
             if (sum == 10) {
-                b=true;
+                b = true;
                 linesCleared += 1;
                 matrix = removeRowFromMatrix(matrix, i);
                 i -= 1;
@@ -129,6 +135,13 @@ public class Matrix {
 
     public int[][] getMatrix() {
         return matrix;
+    }
+
+    public void dispose() {
+        renderer.dispose();
+        batch.dispose();
+        unit_square_texture.dispose();
+        sound.dispose();
     }
 
 
