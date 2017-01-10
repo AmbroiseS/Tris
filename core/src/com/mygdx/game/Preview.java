@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.mygdx.game.Pieces.O_Piece;
 import com.mygdx.game.Pieces.Tetronimoes;
 
 import java.lang.reflect.Array;
@@ -46,17 +47,18 @@ public class Preview {
 
         for (int j=1;j!=6;j++) {
             tempTetro=list.get(j-1);
-            draw(texture, tempTetro.rotation0(), (squareSize/(j+1)),(j-1)*4*squareSize+squareSize);
+            draw(texture, tempTetro.rotation0(),
+                    (squareSize/(j+1)),8*squareSize-(tempTetro instanceof O_Piece? squareSize/2:0),
+                    (j-1)*4*squareSize+squareSize);
         }
 
 
     }
 
-    private void draw(Texture unit, int[][] xy, int size,int decay) {
-        int x=8*squareSize;
-        Tris.batch.draw(unit, xy[0][0]+x, xy[0][1]-decay, size, size);
-        Tris.batch.draw(unit, xy[0][2]+x, xy[0][3]-decay, size, size);
-        Tris.batch.draw(unit, xy[1][0]+x, xy[1][1]-decay, size, size);
-        Tris.batch.draw(unit, xy[1][2]+x, xy[1][3]-decay, size, size);
+    private void draw(Texture unit, int[][] xy, int size,int decayX,int decayY) {
+        Tris.batch.draw(unit, xy[0][0]+decayX, xy[0][1]-decayY, size, size);
+        Tris.batch.draw(unit, xy[0][2]+decayX, xy[0][3]-decayY, size, size);
+        Tris.batch.draw(unit, xy[1][0]+decayX, xy[1][1]-decayY, size, size);
+        Tris.batch.draw(unit, xy[1][2]+decayX, xy[1][3]-decayY, size, size);
     }
 }
