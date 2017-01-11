@@ -2,6 +2,7 @@ package com.mygdx.game.Pieces;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.game.GraphicElements;
 import com.mygdx.game.Matrix;
 import com.mygdx.game.Tris;
 
@@ -18,6 +19,7 @@ public abstract class Tetronimoes {
     long repeatTimeMillis;
 
     private Texture unit_texture;
+    private GraphicElements graphicElements;
 
     int[][] xy1234 = new int[2][4];
     int[][] xy1234test = new int[2][4];
@@ -40,6 +42,7 @@ public abstract class Tetronimoes {
         RIGHT_M = Tris.RIGHT_M - SQSIZE;
         BOTTOM_M = Tris.BOTTOM_M;
         xy1234 = rotation0();
+        graphicElements=new GraphicElements(Tris.batch);
 
     }
 
@@ -59,19 +62,8 @@ public abstract class Tetronimoes {
                 xy1234 = rotation3();
                 break;
         }
-        x1 = xy1234[0][0];
-        y1 = xy1234[0][1];
-        x2 = xy1234[0][2];
-        y2 = xy1234[0][3];
-        x3 = xy1234[1][0];
-        y3 = xy1234[1][1];
-        x4 = xy1234[1][2];
-        y4 = xy1234[1][3];
+        graphicElements.drawPiece(unit_texture,xy1234,SQSIZE);
 
-        Tris.batch.draw(unit_texture, x1, y1, SQSIZE, SQSIZE);
-        Tris.batch.draw(unit_texture, x2, y2, SQSIZE, SQSIZE);
-        Tris.batch.draw(unit_texture, x3, y3, SQSIZE, SQSIZE);
-        Tris.batch.draw(unit_texture, x4, y4, SQSIZE, SQSIZE);
     }
 
     private void getCurrentMatrix(){

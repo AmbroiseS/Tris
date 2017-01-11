@@ -3,13 +3,11 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Pieces.Tetronimoes;
@@ -24,15 +22,16 @@ public class Tris extends ApplicationAdapter {
     private OrthographicCamera camera;
     private ShapeRenderer renderer;
 
-    private Tetronimoes currentPiece;
+    public static Tetronimoes currentPiece;
     private Preview preview;
     private Matrix matrix;
     private Sound sound;
     private Ghost ghost;
     private GraphicElements graphicElements;
+    private Hold hold;
 
     //global settings
-    public static final int REPEATTIMEMILLIS = 80;
+    public static final int REPEATTIMEMILLIS = 70;
 
     //rendering size
     public static final int WIDTH = 960;
@@ -64,20 +63,21 @@ public class Tris extends ApplicationAdapter {
         unit_texture = new Texture("unit.png");
 
         //new random piece
-        preview=new Preview(unit_texture,SQUARESIZE);
+        preview = new Preview(unit_texture, SQUARESIZE);
         currentPiece = preview.getNextPiece();
-        ghost=new Ghost();
+        ghost = new Ghost();
+        hold=new Hold();
 
         //Sound
-        sound=new Sound();
+        sound = new Sound();
 
         //Matrix
         renderer = new ShapeRenderer();
         renderer.setProjectionMatrix(camera.combined);
-        matrix = new Matrix(batch,renderer);
+        matrix = new Matrix(batch, renderer);
 
         //graphics
-        graphicElements=new GraphicElements(batch);
+        graphicElements = new GraphicElements(batch);
     }
 
     public void resize(int width, int height) {
@@ -95,7 +95,7 @@ public class Tris extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
         camera.update();
 
-        //draw
+        //drawInterface
         batch.begin();
         //get fps
         Gdx.graphics.setTitle("" + Gdx.graphics.getFramesPerSecond());
@@ -107,12 +107,14 @@ public class Tris extends ApplicationAdapter {
 
         currentPiece.drawPosition();
         matrix.renderMatrix();
-        graphicElements.draw();
+        graphicElements.drawInterface();
+        hold.drawHold();
 
         batch.end();
 
 
         hardDrop();
+        hold.inputHold(currentPiece,preview);
         matrix.setupMatrixLines()
                 .clearLines();
         currentPiece.updateInput();
@@ -131,9 +133,8 @@ public class Tris extends ApplicationAdapter {
 
     }
 
-
     private void hardDrop() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) ) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
             int[][] temp2 = currentPiece.getPiecePosition();
             int[][] mat = matrix.getMatrix();
 
@@ -166,24 +167,24 @@ public class Tris extends ApplicationAdapter {
                     temp2[1][3] -= (k - 1) * SQUARESIZE;
 
                     matrix.saveInMatrix(temp2);
-
                     currentPiece=preview.getNextPiece();
                     break;
 
                 }
                 k++;
-                if(y==19)
-                    dropFully=true;
+                if (y == 19)
+                    dropFully = true;
             }
 
             if (dropFully) {
-                temp2[0][1] -= (19-max) * SQUARESIZE;
-                temp2[0][3] -= (19-max) * SQUARESIZE;
-                temp2[1][1] -= (19-max) * SQUARESIZE;
-                temp2[1][3] -= (19-max) * SQUARESIZE;
+                temp2[0][1] -= (19 - max) * SQUARESIZE;
+                temp2[0][3] -= (19 - max) * SQUARESIZE;
+                temp2[1][1] -= (19 - max) * SQUARESIZE;
+                temp2[1][3] -= (19 - max) * SQUARESIZE;
                 matrix.saveInMatrix(temp2);
                 currentPiece=preview.getNextPiece();
             }
+            hold.setHoldHasBeenUsedOnce(false);
             sound.playDropPiece();
         }
     }
@@ -195,7 +196,6 @@ public class Tris extends ApplicationAdapter {
 
         return tmp1 > tmp2 ? tmp1 : tmp2;
     }
-
 }
 
 
