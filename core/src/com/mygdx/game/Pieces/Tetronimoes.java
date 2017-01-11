@@ -2,8 +2,8 @@ package com.mygdx.game.Pieces;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
-import com.mygdx.game.GraphicElements;
-import com.mygdx.game.Matrix;
+import com.mygdx.game.System.GraphicElements;
+import com.mygdx.game.Game.Matrix;
 import com.mygdx.game.Tris;
 
 /**

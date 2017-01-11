@@ -23,12 +23,12 @@ public class Tris extends ApplicationAdapter {
     private ShapeRenderer renderer;
 
     public static Tetronimoes currentPiece;
-    private Preview preview;
-    private Matrix matrix;
-    private Sound sound;
-    private Ghost ghost;
-    private GraphicElements graphicElements;
-    private Hold hold;
+    private com.mygdx.game.Game.Preview preview;
+    private com.mygdx.game.Game.Matrix matrix;
+    private com.mygdx.game.System.Sound sound;
+    private com.mygdx.game.Game.Ghost ghost;
+    private com.mygdx.game.System.GraphicElements graphicElements;
+    private com.mygdx.game.Game.Hold hold;
 
     //global settings
     public static final int REPEATTIMEMILLIS = 70;
@@ -63,21 +63,21 @@ public class Tris extends ApplicationAdapter {
         unit_texture = new Texture("unit.png");
 
         //new random piece
-        preview = new Preview(unit_texture, SQUARESIZE);
+        preview = new com.mygdx.game.Game.Preview(unit_texture, SQUARESIZE);
         currentPiece = preview.getNextPiece();
-        ghost = new Ghost();
-        hold=new Hold();
+        ghost = new com.mygdx.game.Game.Ghost();
+        hold=new com.mygdx.game.Game.Hold();
 
         //Sound
-        sound = new Sound();
+        sound = new com.mygdx.game.System.Sound();
 
         //Matrix
         renderer = new ShapeRenderer();
         renderer.setProjectionMatrix(camera.combined);
-        matrix = new Matrix(batch, renderer);
+        matrix = new com.mygdx.game.Game.Matrix(batch, renderer);
 
         //graphics
-        graphicElements = new GraphicElements(batch);
+        graphicElements = new com.mygdx.game.System.GraphicElements(batch);
     }
 
     public void resize(int width, int height) {

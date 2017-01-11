@@ -1,6 +1,7 @@
-package com.mygdx.game;
+package com.mygdx.game.Game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.mygdx.game.Tris;
 
 /**
  * Created by Sikanla on 09/01/2017.
@@ -34,7 +35,7 @@ public class Ghost {
     }
 
     private int[][] calculatePiecePlacement(int[][] piecePosition) {
-        matrix=Matrix.matrix;
+        matrix= Matrix.matrix;
         int[][] temp2 = piecePosition;
 
 

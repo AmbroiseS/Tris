@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.Game;
 
 import com.mygdx.game.Pieces.I_Piece;
 import com.mygdx.game.Pieces.J_Piece;

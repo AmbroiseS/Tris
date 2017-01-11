@@ -1,10 +1,10 @@
-package com.mygdx.game;
+package com.mygdx.game.Game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.Pieces.O_Piece;
 import com.mygdx.game.Pieces.Tetronimoes;
+import com.mygdx.game.Tris;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**

@@ -1,10 +1,11 @@
-package com.mygdx.game;
+package com.mygdx.game.Game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.Tris;
 
 /**
  * Created by Sikanla on 07/01/2017.
@@ -13,26 +14,27 @@ import com.badlogic.gdx.utils.Array;
 public class Matrix {
 
     public static int[][] matrix = new int[20][10];
+    private Array<Vector2> linesHori;
+    private Array<Vector2> linesVert;
 
     private int linesCleared;
     private int BOTTOM_M, SQUARESIZE, LEFT_M;
     private SpriteBatch batch;
     private Texture unit_square_texture;
-
     private ShapeRenderer renderer;
 
-    private Sound sound;
+    private com.mygdx.game.System.Sound sound;
 
     public Matrix(SpriteBatch batch, ShapeRenderer renderer) {
         this.batch = batch;
         unit_square_texture = new Texture("unit_square.png");
-        BOTTOM_M=Tris.BOTTOM_M;
+        BOTTOM_M= Tris.BOTTOM_M;
         SQUARESIZE=Tris.SQUARESIZE;
         LEFT_M=Tris.LEFT_M;
         linesVert = new Array<Vector2>();
         linesHori = new Array<Vector2>();
         this.renderer = renderer;
-        sound = new Sound();
+        sound = new com.mygdx.game.System.Sound();
     }
 
 
@@ -46,25 +48,7 @@ public class Matrix {
             }
         }
         return this;
-
-
     }
-  /*  public int[][] saveInSpecificMat(int[][] temp,int [][] mat) {
-
-        for (int i = 0; i != 2; i++) {
-            for (int j = 0; j != 4; ) {
-                //matrix[y,x]=1-->
-                mat[19-(((temp[i][j + 1]) - BOTTOM_M) / SQUARESIZE)][(((temp[i][j]) - LEFT_M) / SQUARESIZE)] = 1;
-                j += 2;
-            }
-        }
-        return mat;
-
-
-    }*/
-
-    private Array<Vector2> linesHori;
-    private Array<Vector2> linesVert;
 
     public Matrix setupMatrixLines() {
 
@@ -91,8 +75,6 @@ public class Matrix {
         return this;
 
     }
-
-
 
     public Matrix renderMatrix() {
         for (int j = 0; j != 20; j++) {
@@ -138,8 +120,6 @@ public class Matrix {
     }
 
     public void dispose() {
-        renderer.dispose();
-        batch.dispose();
         unit_square_texture.dispose();
         sound.dispose();
     }

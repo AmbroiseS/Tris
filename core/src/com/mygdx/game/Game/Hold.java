@@ -1,9 +1,10 @@
-package com.mygdx.game;
+package com.mygdx.game.Game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.Pieces.Tetronimoes;
+import com.mygdx.game.Tris;
 
 /**
  * Created by Sikanla on 10/01/2017.
@@ -17,7 +18,7 @@ public class Hold {
     private boolean firstHoldUse = true;
     private int BOTTOM_M, SQUARESIZE, LEFT_M;
     private Texture unit_square_texture;
-    private GraphicElements graphicElements;
+    private com.mygdx.game.System.GraphicElements graphicElements;
 
 
     public Hold() {
@@ -25,7 +26,7 @@ public class Hold {
         BOTTOM_M = Tris.BOTTOM_M;
         SQUARESIZE = Tris.SQUARESIZE;
         LEFT_M = Tris.LEFT_M;
-        graphicElements = new GraphicElements(Tris.batch);
+        graphicElements = new com.mygdx.game.System.GraphicElements(Tris.batch);
 
     }
 
@@ -34,7 +35,7 @@ public class Hold {
     }
 
 
-    public void inputHold(Tetronimoes currentPiece, Preview preview) {
+    public void inputHold(Tetronimoes currentPiece, com.mygdx.game.Game.Preview preview) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
             if (!firstHoldUse) {
                 //hold can only be used once
