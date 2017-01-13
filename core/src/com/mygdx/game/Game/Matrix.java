@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.GameScreen;
 import com.mygdx.game.Tris;
 
 /**
@@ -28,9 +29,9 @@ public class Matrix {
     public Matrix(SpriteBatch batch, ShapeRenderer renderer) {
         this.batch = batch;
         unit_square_texture = new Texture("unit_square.png");
-        BOTTOM_M= Tris.BOTTOM_M;
-        SQUARESIZE=Tris.SQUARESIZE;
-        LEFT_M=Tris.LEFT_M;
+        BOTTOM_M= GameScreen.BOTTOM_M;
+        SQUARESIZE=GameScreen.SQUARESIZE;
+        LEFT_M=GameScreen.LEFT_M;
         linesVert = new Array<Vector2>();
         linesHori = new Array<Vector2>();
         this.renderer = renderer;

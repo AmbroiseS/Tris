@@ -3,6 +3,7 @@ package com.mygdx.game.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.mygdx.game.GameScreen;
 import com.mygdx.game.Pieces.Tetronimoes;
 import com.mygdx.game.Tris;
 
@@ -23,10 +24,10 @@ public class Hold {
 
     public Hold() {
         unit_square_texture = new Texture("unit_square.png");
-        BOTTOM_M = Tris.BOTTOM_M;
-        SQUARESIZE = Tris.SQUARESIZE;
-        LEFT_M = Tris.LEFT_M;
-        graphicElements = new com.mygdx.game.System.GraphicElements(Tris.batch);
+        BOTTOM_M = GameScreen.BOTTOM_M;
+        SQUARESIZE = GameScreen.SQUARESIZE;
+        LEFT_M = GameScreen.LEFT_M;
+        graphicElements = new com.mygdx.game.System.GraphicElements();
 
     }
 
@@ -42,14 +43,14 @@ public class Hold {
                 if (!holdHasBeenUsedOnce) {
                     temp = holdPiece;
                     try {
-                        holdPiece = Tris.currentPiece.getClass().newInstance();
+                        holdPiece = GameScreen.currentPiece.getClass().newInstance();
                     } catch (InstantiationException e) {
                         System.out.print(e.toString());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
                     try {
-                        Tris.currentPiece=temp.getClass().newInstance();
+                        GameScreen.currentPiece=temp.getClass().newInstance();
                     } catch (InstantiationException e) {
                         e.printStackTrace();
                     } catch (IllegalAccessException e) {
@@ -68,7 +69,7 @@ public class Hold {
                     e.printStackTrace();
                 }
                 firstHoldUse = false;
-                Tris.currentPiece=preview.getNextPiece();
+                GameScreen.currentPiece=preview.getNextPiece();
 
             }
         }

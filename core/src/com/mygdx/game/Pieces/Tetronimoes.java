@@ -2,6 +2,7 @@ package com.mygdx.game.Pieces;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.game.GameScreen;
 import com.mygdx.game.System.GraphicElements;
 import com.mygdx.game.Game.Matrix;
 import com.mygdx.game.Tris;
@@ -24,7 +25,7 @@ public abstract class Tetronimoes {
     int[][] xy1234 = new int[2][4];
     int[][] xy1234test = new int[2][4];
 
-    int x, y, x1, y1, x2, y2, x3, y3, x4, y4;
+    int x, y;
 
     int LEFT_M, BOTTOM_M, RIGHT_M;
 
@@ -35,14 +36,14 @@ public abstract class Tetronimoes {
     long timeRight = 0;
 
     public Tetronimoes() {
-        this.SQSIZE = Tris.SQUARESIZE;
-        repeatTimeMillis = Tris.REPEATTIMEMILLIS;
-        unit_texture = Tris.unit_texture;
-        LEFT_M = Tris.LEFT_M;
-        RIGHT_M = Tris.RIGHT_M - SQSIZE;
-        BOTTOM_M = Tris.BOTTOM_M;
+        this.SQSIZE = GameScreen.SQUARESIZE;
+        repeatTimeMillis = GameScreen.REPEATTIMEMILLIS;
+        unit_texture = GameScreen.unit_texture;
+        LEFT_M = GameScreen.LEFT_M;
+        RIGHT_M = GameScreen.RIGHT_M - SQSIZE;
+        BOTTOM_M = GameScreen.BOTTOM_M;
         xy1234 = rotation0();
-        graphicElements=new GraphicElements(Tris.batch);
+        graphicElements=new GraphicElements();
 
     }
 

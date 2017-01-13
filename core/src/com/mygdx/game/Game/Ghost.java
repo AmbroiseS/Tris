@@ -1,6 +1,7 @@
 package com.mygdx.game.Game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.mygdx.game.GameScreen;
 import com.mygdx.game.Tris;
 
 /**
@@ -16,9 +17,9 @@ public class Ghost {
     private Texture ghostUnitTexture;
 
     public Ghost() {
-        this.SQUARESIZE = Tris.SQUARESIZE;
-        this.LEFT_M = Tris.LEFT_M;
-        this.BOTTOM_M = Tris.BOTTOM_M;
+        this.SQUARESIZE = GameScreen.SQUARESIZE;
+        this.LEFT_M = GameScreen.LEFT_M;
+        this.BOTTOM_M = GameScreen.BOTTOM_M;
         ghostUnitTexture = new Texture("ghost.png");
     }
 
@@ -54,7 +55,7 @@ public class Ghost {
         f = 19 - ((temp2[0][3] - BOTTOM_M) / SQUARESIZE);
         g = 19 - ((temp2[1][1] - BOTTOM_M) / SQUARESIZE);
         h = 19 - ((temp2[1][3] - BOTTOM_M) / SQUARESIZE);
-        int max = Tris.max(e, f, g, h);
+        int max = GameScreen.max(e, f, g, h);
 
         int k = 0;
 
