@@ -2,6 +2,7 @@ package com.mygdx.game.Pieces;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.game.Game.PiecePosition;
 import com.mygdx.game.GameScreen;
 import com.mygdx.game.System.GraphicElements;
 import com.mygdx.game.Game.Matrix;
@@ -21,6 +22,7 @@ public abstract class Tetronimoes {
 
     private Texture unit_texture;
     private GraphicElements graphicElements;
+    PiecePosition piecePosition;
 
     int[][] xy1234 = new int[2][4];
     int[][] xy1234test = new int[2][4];
@@ -43,6 +45,7 @@ public abstract class Tetronimoes {
         RIGHT_M = GameScreen.RIGHT_M - SQSIZE;
         BOTTOM_M = GameScreen.BOTTOM_M;
         xy1234 = rotation0();
+        piecePosition=new PiecePosition(rotation0());
         graphicElements=new GraphicElements();
 
     }
@@ -63,7 +66,7 @@ public abstract class Tetronimoes {
                 xy1234 = rotation3();
                 break;
         }
-        graphicElements.drawPiece(unit_texture,xy1234,SQSIZE);
+        graphicElements.drawPiece(unit_texture,piecePosition.getPiecePosition(),SQSIZE);
 
     }
 
@@ -295,7 +298,7 @@ public abstract class Tetronimoes {
 
     public abstract int[][] rotation3();
 
-    public void updateRight() {
+  /*  public void updateRight() {
         xy1234[0][0] += SQSIZE;
         xy1234[0][2] += SQSIZE;
         xy1234[1][0] += SQSIZE;
@@ -315,9 +318,10 @@ public abstract class Tetronimoes {
         xy1234[1][1] -= SQSIZE;
         xy1234[1][3] -= SQSIZE;
     }
+    */
 
     public int[][] getPiecePosition() {
-        return xy1234;
+        return piecePosition.getPiecePosition();
     }
 
 
