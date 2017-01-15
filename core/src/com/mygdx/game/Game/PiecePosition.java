@@ -11,17 +11,9 @@ public class PiecePosition {
     private int SQSIZE;
     private int[][] piecePosition = new int[2][4];
 
-//Singleton implementation
-    private static PiecePosition instance = new PiecePosition();
-
-    private PiecePosition() {
+    public PiecePosition() {
         SQSIZE = GameScreen.SQUARESIZE;
     }
-
-    public static PiecePosition getInstance() {
-        return instance;
-    }
-
 
     public void setPiecePosition(int[][] piecePosition) {
         this.piecePosition = piecePosition;
