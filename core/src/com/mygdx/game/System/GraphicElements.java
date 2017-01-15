@@ -3,6 +3,7 @@ package com.mygdx.game.System;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.Game.PiecePosition;
 import com.mygdx.game.GameScreen;
 import com.mygdx.game.Tris;
 
@@ -15,14 +16,19 @@ public class GraphicElements {
     private SpriteBatch batch;
     private BitmapFont font;
 
-    public GraphicElements() {
+
+    private static GraphicElements instance = new GraphicElements();
+
+    private GraphicElements() {
         this.batch = Tris.batch;
         BOTTOM_M = GameScreen.BOTTOM_M;
         SQUARESIZE = GameScreen.SQUARESIZE;
         LEFT_M = GameScreen.LEFT_M;
         font = new BitmapFont();
+    }
 
-
+    public static GraphicElements getInstance() {
+        return instance;
     }
 
     public void drawPiece(Texture text,int[][] xy,int SIZE) {
