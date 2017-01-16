@@ -15,12 +15,14 @@ public class Ghost {
     private int LEFT_M;
     private int BOTTOM_M;
     private Texture ghostUnitTexture;
+    private int [][] temp;
 
     public Ghost() {
         this.SQUARESIZE = GameScreen.SQUARESIZE;
         this.LEFT_M = GameScreen.LEFT_M;
         this.BOTTOM_M = GameScreen.BOTTOM_M;
         ghostUnitTexture = new Texture("ghost.png");
+        temp=new int[2][4];
     }
 
 
@@ -35,9 +37,15 @@ public class Ghost {
         Tris.batch.draw(ghostUnitTexture, ghost[1][2], ghost[1][3], SQUARESIZE, SQUARESIZE);
     }
 
-    private int[][] calculatePiecePlacement(int[][] piecePosition) {
+    private int[][] calculatePiecePlacement(int[][] xy1234) {
         matrix= Matrix.matrix;
-        int[][] temp2 = piecePosition;
+
+        //shallow copy to prevent reference
+        for (int i=0;i!=2;i++){
+            for (int j=0;j!=4;j++){
+                temp[i][j] = xy1234[i][j];
+            }
+        }
 
 
         int a, b, c, d;
@@ -45,16 +53,16 @@ public class Ghost {
         boolean dropFully = false;
 
         //get the x
-        a = (temp2[0][0] - LEFT_M) / SQUARESIZE;
-        b = (temp2[0][2] - LEFT_M) / SQUARESIZE;
-        c = (temp2[1][0] - LEFT_M) / SQUARESIZE;
-        d = (temp2[1][2] - LEFT_M) / SQUARESIZE;
+        a = (temp[0][0] - LEFT_M) / SQUARESIZE;
+        b = (temp[0][2] - LEFT_M) / SQUARESIZE;
+        c = (temp[1][0] - LEFT_M) / SQUARESIZE;
+        d = (temp[1][2] - LEFT_M) / SQUARESIZE;
 
         //get the y
-        e = 19 - ((temp2[0][1] - BOTTOM_M) / SQUARESIZE);
-        f = 19 - ((temp2[0][3] - BOTTOM_M) / SQUARESIZE);
-        g = 19 - ((temp2[1][1] - BOTTOM_M) / SQUARESIZE);
-        h = 19 - ((temp2[1][3] - BOTTOM_M) / SQUARESIZE);
+        e = 19 - ((temp[0][1] - BOTTOM_M) / SQUARESIZE);
+        f = 19 - ((temp[0][3] - BOTTOM_M) / SQUARESIZE);
+        g = 19 - ((temp[1][1] - BOTTOM_M) / SQUARESIZE);
+        h = 19 - ((temp[1][3] - BOTTOM_M) / SQUARESIZE);
         int max = GameScreen.max(e, f, g, h);
 
         int k = 0;
@@ -66,10 +74,10 @@ public class Ghost {
 
                         if (matrix[e + k][a] == 1 || matrix[f + k][b] == 1 || matrix[g + k][c] == 1 || matrix[h + k][d] == 1) {
 
-                            temp2[0][1] -= (k - 1) * SQUARESIZE;
-                            temp2[0][3] -= (k - 1) * SQUARESIZE;
-                            temp2[1][1] -= (k - 1) * SQUARESIZE;
-                            temp2[1][3] -= (k - 1) * SQUARESIZE;
+                            temp[0][1] -= (k - 1) * SQUARESIZE;
+                            temp[0][3] -= (k - 1) * SQUARESIZE;
+                            temp[1][1] -= (k - 1) * SQUARESIZE;
+                            temp[1][3] -= (k - 1) * SQUARESIZE;
 
 
                             break;
@@ -84,12 +92,12 @@ public class Ghost {
         }
 
         if (dropFully) {
-            temp2[0][1] -= (19 - max) * SQUARESIZE;
-            temp2[0][3] -= (19 - max) * SQUARESIZE;
-            temp2[1][1] -= (19 - max) * SQUARESIZE;
-            temp2[1][3] -= (19 - max) * SQUARESIZE;
+            temp[0][1] -= (19 - max) * SQUARESIZE;
+            temp[0][3] -= (19 - max) * SQUARESIZE;
+            temp[1][1] -= (19 - max) * SQUARESIZE;
+            temp[1][3] -= (19 - max) * SQUARESIZE;
         }
-        return temp2;
+        return temp;
 
     }
 

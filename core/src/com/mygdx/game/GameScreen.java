@@ -143,7 +143,7 @@ public class GameScreen implements Screen {
         hold.inputHold(currentPiece,preview);
         matrix.setupMatrixLines()
                 .clearLines();
-        currentPiece.updateInput();
+        currentPiece.refreshInput();
     }
 
 
