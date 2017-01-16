@@ -61,21 +61,30 @@ public abstract class Tetronimoes extends InputInterface {
         return piecePosition.getPiecePosition();
     }
 
+
     int[][] getAdequateRotation(int nextPositionNumber) {
-        int[][] xy1234 = piecePosition.getPiecePosition();
+        int[][] temp = piecePosition.getPiecePosition();
+        int[][] xy1234test = new int[2][4];
+
+        //shallow copy to prevent reference
+        for (int i = 0; i != 2; i++) {
+            for (int j = 0; j != 4; j++) {
+                xy1234test[i][j] = temp[i][j];
+            }
+        }
         if (nextPositionNumber == 0)
-            xy1234 = rotation0();
+            xy1234test = rotation0();
 
         if (nextPositionNumber == 1)
-            xy1234 = rotation1();
+            xy1234test = rotation1();
 
         if (nextPositionNumber == 2)
-            xy1234 = rotation2();
+            xy1234test = rotation2();
 
         if (nextPositionNumber == 3)
-            xy1234 = rotation3();
+            xy1234test = rotation3();
 
-        return xy1234;
+        return xy1234test;
     }
 
     @Override

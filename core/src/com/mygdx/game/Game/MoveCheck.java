@@ -174,6 +174,9 @@ public class MoveCheck {
         int a, b, c, d;
         int e, f, g, h;
 
+
+        xy1234test = xy1234;
+
         //get the x
         a = (xy1234test[0][0] - LEFT_M) / SQSIZE;
         b = (xy1234test[0][2] - LEFT_M) / SQSIZE;
@@ -186,7 +189,6 @@ public class MoveCheck {
         g = 19 - ((xy1234test[1][1] - BOTTOM_M) / SQSIZE);
         h = 19 - ((xy1234test[1][3] - BOTTOM_M) / SQSIZE);
 
-        xy1234test = xy1234;
 
         if (xy1234test[0][1] < BOTTOM_M &&
                 xy1234test[0][3] < BOTTOM_M &&
