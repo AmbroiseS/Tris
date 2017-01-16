@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.GameScreen;
 import com.mygdx.game.Pieces.Tetronimoes;
+import com.mygdx.game.System.GraphicElements;
 import com.mygdx.game.Tris;
 
 /**
@@ -27,7 +28,7 @@ public class Hold {
         BOTTOM_M = GameScreen.BOTTOM_M;
         SQUARESIZE = GameScreen.SQUARESIZE;
         LEFT_M = GameScreen.LEFT_M;
-        graphicElements = new com.mygdx.game.System.GraphicElements();
+        graphicElements = GraphicElements.getInstance();
 
     }
 
@@ -36,14 +37,14 @@ public class Hold {
     }
 
 
-    public void inputHold(Tetronimoes currentPiece, com.mygdx.game.Game.Preview preview) {
+    public void inputHold(Tetronimoes currentPiece, Preview preview) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
             if (!firstHoldUse) {
                 //hold can only be used once
                 if (!holdHasBeenUsedOnce) {
                     temp = holdPiece;
                     try {
-                        holdPiece = GameScreen.currentPiece.getClass().newInstance();
+                        holdPiece = currentPiece.getClass().newInstance();
                     } catch (InstantiationException e) {
                         System.out.print(e.toString());
                     } catch (IllegalAccessException e) {
@@ -75,10 +76,8 @@ public class Hold {
         }
     }
 
-
     public void drawHold() {
         if (holdPiece != null) {
-
             int[][] temp = holdPiece.rotation0();
             temp[0][0] -= 7 * SQUARESIZE;
             temp[0][2] -= 7 * SQUARESIZE;

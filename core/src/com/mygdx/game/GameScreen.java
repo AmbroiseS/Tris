@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Pieces.Tetronimoes;
+import com.mygdx.game.System.GraphicElements;
 
 /**
  * Created by Sikanla on 12/01/2017.
@@ -81,7 +82,7 @@ public class GameScreen implements Screen {
         matrix = new com.mygdx.game.Game.Matrix(tris.batch, renderer);
 
         //graphics
-        graphicElements = new com.mygdx.game.System.GraphicElements();
+        graphicElements = GraphicElements.getInstance();
 
     }
 
@@ -129,9 +130,10 @@ public class GameScreen implements Screen {
         tris.batch.draw(backgroundTexture, 0, 0, WIDTH, HEIGHT, 0, 0, uRight, vTop);
 
         preview.displayPreview();
-        ghost.drawGhost(currentPiece.getPiecePosition());
 
         currentPiece.drawPosition();
+        ghost.drawGhost(currentPiece.getPiecePosition());
+
         matrix.renderMatrix();
         graphicElements.drawInterface();
         hold.drawHold();
@@ -140,7 +142,7 @@ public class GameScreen implements Screen {
 
 
         hardDrop();
-        hold.inputHold(currentPiece,preview);
+        hold.inputHold(currentPiece, preview);
         matrix.setupMatrixLines()
                 .clearLines();
         currentPiece.refreshInput();
@@ -184,34 +186,42 @@ public class GameScreen implements Screen {
             int k = 0;
 
             for (int y = max; y != 20; y++) {
+                if (a < 10 && b < 10 && c < 10 && d < 10) {
+                    if (a >= 0 && b >= 0 && c >= 0 && d >= 0) {
+                        if (e < 20 && f < 20 && g < 20 && h < 20) {
 
-                if (mat[e + k][a] == 1 || mat[f + k][b] == 1 || mat[g + k][c] == 1 || mat[h + k][d] == 1) {
+                            if (mat[e + k][a] == 1 || mat[f + k][b] == 1 || mat[g + k][c] == 1 || mat[h + k][d] == 1) {
 
-                    temp2[0][1] -= (k - 1) * SQUARESIZE;
-                    temp2[0][3] -= (k - 1) * SQUARESIZE;
-                    temp2[1][1] -= (k - 1) * SQUARESIZE;
-                    temp2[1][3] -= (k - 1) * SQUARESIZE;
+                                temp2[0][1] -= (k - 1) * SQUARESIZE;
+                                temp2[0][3] -= (k - 1) * SQUARESIZE;
+                                temp2[1][1] -= (k - 1) * SQUARESIZE;
+                                temp2[1][3] -= (k - 1) * SQUARESIZE;
 
-                    matrix.saveInMatrix(temp2);
-                    currentPiece=preview.getNextPiece();
-                    break;
+                                matrix.saveInMatrix(temp2);
+                                currentPiece = preview.getNextPiece();
+                                hold.setHoldHasBeenUsedOnce(false);
 
+                                break;
+
+                            }
+                            k++;
+                            if (y == 19)
+                                dropFully = true;
+                        }
+
+                        if (dropFully) {
+                            temp2[0][1] -= (19 - max) * SQUARESIZE;
+                            temp2[0][3] -= (19 - max) * SQUARESIZE;
+                            temp2[1][1] -= (19 - max) * SQUARESIZE;
+                            temp2[1][3] -= (19 - max) * SQUARESIZE;
+                            matrix.saveInMatrix(temp2);
+                            currentPiece = preview.getNextPiece();
+                        }
+                        hold.setHoldHasBeenUsedOnce(false);
+                        sound.playDropPiece();
+                    }
                 }
-                k++;
-                if (y == 19)
-                    dropFully = true;
             }
-
-            if (dropFully) {
-                temp2[0][1] -= (19 - max) * SQUARESIZE;
-                temp2[0][3] -= (19 - max) * SQUARESIZE;
-                temp2[1][1] -= (19 - max) * SQUARESIZE;
-                temp2[1][3] -= (19 - max) * SQUARESIZE;
-                matrix.saveInMatrix(temp2);
-                currentPiece=preview.getNextPiece();
-            }
-            hold.setHoldHasBeenUsedOnce(false);
-            sound.playDropPiece();
         }
     }
 
@@ -222,4 +232,7 @@ public class GameScreen implements Screen {
 
         return tmp1 > tmp2 ? tmp1 : tmp2;
     }
+
 }
+
+

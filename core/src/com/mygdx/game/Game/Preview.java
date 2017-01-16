@@ -47,7 +47,7 @@ public class Preview {
 
         for (int j=1;j!=6;j++) {
             tempTetro=list.get(j-1);
-            draw(texture, tempTetro.rotation0(),
+            draw(texture, tempTetro.initiatePiece(),
                     (squareSize/(j+1)),8*squareSize-(tempTetro instanceof O_Piece? squareSize/2:0),
                     (j-1)*4*squareSize+squareSize);
         }

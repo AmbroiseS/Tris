@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.GameScreen;
+import com.mygdx.game.System.Sound;
 import com.mygdx.game.Tris;
 
 /**
@@ -24,7 +25,7 @@ public class Matrix {
     private Texture unit_square_texture;
     private ShapeRenderer renderer;
 
-    private com.mygdx.game.System.Sound sound;
+    private Sound sound;
 
     public Matrix(SpriteBatch batch, ShapeRenderer renderer) {
         this.batch = batch;
@@ -35,7 +36,7 @@ public class Matrix {
         linesVert = new Array<Vector2>();
         linesHori = new Array<Vector2>();
         this.renderer = renderer;
-        sound = new com.mygdx.game.System.Sound();
+        sound = new Sound();
     }
 
 
