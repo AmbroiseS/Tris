@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -33,6 +34,8 @@ public class GameScreen implements Screen {
     private com.mygdx.game.Game.Ghost ghost;
     private com.mygdx.game.System.GraphicElements graphicElements;
     private com.mygdx.game.Game.Hold hold;
+    private SprintMode sprintMode;
+
 
     //global settings
     public static final int REPEATTIMEMILLIS = 70;
@@ -84,34 +87,15 @@ public class GameScreen implements Screen {
         //graphics
         graphicElements = GraphicElements.getInstance();
 
-    }
+        //gameMode
+        sprintMode=new SprintMode(tris);
 
-
-    @Override
-    public void show() {
 
     }
 
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    private long o = 0;
 
 
     @Override
@@ -137,6 +121,7 @@ public class GameScreen implements Screen {
         matrix.renderMatrix();
         graphicElements.drawInterface();
         hold.drawHold();
+        sprintMode.startAnimation();
 
         tris.batch.end();
 
@@ -231,6 +216,26 @@ public class GameScreen implements Screen {
         int tmp2 = c > d ? c : d;
 
         return tmp1 > tmp2 ? tmp1 : tmp2;
+    }
+
+
+    @Override
+    public void show() {
+
+    }
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
 }

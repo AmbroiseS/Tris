@@ -19,7 +19,8 @@ public class Matrix {
     private Array<Vector2> linesHori;
     private Array<Vector2> linesVert;
 
-    private int linesCleared;
+    private static int totalLinesCleared;
+
     private int BOTTOM_M, SQUARESIZE, LEFT_M;
     private SpriteBatch batch;
     private Texture unit_square_texture;
@@ -29,6 +30,7 @@ public class Matrix {
 
     public Matrix(SpriteBatch batch, ShapeRenderer renderer) {
         this.batch = batch;
+        totalLinesCleared=0;
         unit_square_texture = new Texture("unit_square.png");
         BOTTOM_M= GameScreen.BOTTOM_M;
         SQUARESIZE=GameScreen.SQUARESIZE;
@@ -37,6 +39,18 @@ public class Matrix {
         linesHori = new Array<Vector2>();
         this.renderer = renderer;
         sound = new Sound();
+    }
+
+    public int[][] getMatrix() {
+        return matrix;
+    }
+
+    public static int getLinesCleared(){
+        return totalLinesCleared;
+    }
+
+    public static void resetLineCount(){
+        totalLinesCleared=0;
     }
 
 
@@ -91,7 +105,6 @@ public class Matrix {
 
     public Matrix clearLines() {
         boolean b = false;
-        linesCleared = 0;
         for (int i = 0; i != 20; i++) {
             int sum = 0;
             for (int j = 0; j != 10; j++) {
@@ -99,7 +112,7 @@ public class Matrix {
             }
             if (sum == 10) {
                 b = true;
-                linesCleared += 1;
+                totalLinesCleared += 1;
                 matrix = removeRowFromMatrix(matrix, i);
                 i -= 1;
             }
@@ -110,20 +123,17 @@ public class Matrix {
         return this;
     }
 
+
+    public void dispose() {
+        unit_square_texture.dispose();
+        sound.dispose();
+    }
+
     private int[][] removeRowFromMatrix(int[][] array, int row) {
         int[][] arrayToReturn = new int[20][10];
         System.arraycopy(array, 0, arrayToReturn, 1, row);
         System.arraycopy(array, row + 1, arrayToReturn, row + 1, 20 - (row + 1));
         return arrayToReturn;
-    }
-
-    public int[][] getMatrix() {
-        return matrix;
-    }
-
-    public void dispose() {
-        unit_square_texture.dispose();
-        sound.dispose();
     }
 
 
