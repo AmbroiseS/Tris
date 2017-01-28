@@ -12,7 +12,7 @@ import com.mygdx.game.Pieces.Tetronimoes;
  * Created by Sikanla on 15/01/2017.
  */
 
-public class InputInterface extends MoveCheck {
+public abstract class InputInterface extends MoveCheck {
 
     long timeLeft, timeRight, timeDown;
     int repeatTimeMillis, SQSIZE;
