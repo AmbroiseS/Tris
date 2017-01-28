@@ -190,19 +190,19 @@ public class MoveCheck {
         h = 19 - ((xy1234test[1][3] - BOTTOM_M) / SQSIZE);
 
 
-        if (xy1234test[0][1] < BOTTOM_M &&
-                xy1234test[0][3] < BOTTOM_M &&
-                xy1234test[1][1] < BOTTOM_M &&
-                xy1234test[1][3] < BOTTOM_M &&
+        if (xy1234test[0][1] < BOTTOM_M ||
+                xy1234test[0][3] < BOTTOM_M ||
+                xy1234test[1][1] < BOTTOM_M ||
+                xy1234test[1][3] < BOTTOM_M ||
 
-                xy1234test[0][2] > RIGHT_M &&
-                xy1234test[1][0] > RIGHT_M &&
-                xy1234test[1][2] > RIGHT_M &&
-                xy1234test[0][0] > RIGHT_M &&
+                xy1234test[0][2] > RIGHT_M ||
+                xy1234test[1][0] > RIGHT_M ||
+                xy1234test[1][2] > RIGHT_M ||
+                xy1234test[0][0] > RIGHT_M ||
 
-                xy1234test[0][0] < LEFT_M &&
-                xy1234test[0][2] < LEFT_M &&
-                xy1234test[1][0] < LEFT_M &&
+                xy1234test[0][0] < LEFT_M ||
+                xy1234test[0][2] < LEFT_M ||
+                xy1234test[1][0] < LEFT_M ||
                 xy1234test[1][2] < LEFT_M) {
             return false;
         } else
