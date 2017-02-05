@@ -1,16 +1,15 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Game.Preview;
 import com.mygdx.game.Pieces.Tetronimoes;
 import com.mygdx.game.System.GraphicElements;
 
@@ -18,7 +17,7 @@ import com.mygdx.game.System.GraphicElements;
  * Created by Sikanla on 12/01/2017.
  */
 
-public class GameScreen implements Screen {
+public class GameScreen implements Screen, SprintMode.SprintModeInterface {
 
     private Texture backgroundTexture;
     public static Texture unit_texture;
@@ -88,7 +87,8 @@ public class GameScreen implements Screen {
         graphicElements = GraphicElements.getInstance();
 
         //gameMode
-        sprintMode=new SprintMode(tris);
+        sprintMode = new SprintMode(tris);
+        sprintMode.registerListener(this);
 
 
     }
@@ -121,7 +121,7 @@ public class GameScreen implements Screen {
         matrix.renderMatrix();
         graphicElements.drawInterface();
         hold.drawHold();
-        sprintMode.startAnimation();
+        sprintMode.start();
 
         tris.batch.end();
 
@@ -131,6 +131,14 @@ public class GameScreen implements Screen {
         matrix.setupMatrixLines()
                 .clearLines();
         currentPiece.refreshInput();
+
+    }
+
+    public void newGame() {
+        System.out.print("new game");
+        matrix.resetAll();
+        this.preview = new Preview(unit_texture, SQUARESIZE);
+        currentPiece = preview.getNextPiece();
     }
 
 
@@ -223,6 +231,7 @@ public class GameScreen implements Screen {
     public void show() {
 
     }
+
     @Override
     public void pause() {
 

@@ -52,6 +52,11 @@ public class Matrix {
     public static void resetLineCount(){
         totalLinesCleared=0;
     }
+    public void resetAll(){
+        totalLinesCleared=0;
+        matrix= new int [20][10];
+
+    }
 
 
     public Matrix saveInMatrix(int[][] temp) {
