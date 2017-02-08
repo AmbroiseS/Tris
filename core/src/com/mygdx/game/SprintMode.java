@@ -20,6 +20,7 @@ public class SprintMode {
 
     public interface SprintModeInterface {
         void newGame();
+        void gameOver();
     }
 
     public SprintMode(Tris tris) {
@@ -64,12 +65,15 @@ public class SprintMode {
     }
 
     private void goalReached(SpriteBatch batch) {
-        if (Matrix.getLinesCleared() >= 40) {
+        if (Matrix.getLinesCleared() >= 4) {
             float finalTime = deltaTime;
             start = false;
             minutes = (int) finalTime / 60;
             seconds = (int) finalTime % 60;
             str = String.format("%02d:%02d", minutes, seconds);
+
+            sprintModeInterface.gameOver();
+
             font.draw(batch, "Your time= " + str, GameScreen.WIDTH - 8 * GameScreen.SQUARESIZE,
                     GameScreen.HEIGHT - 3 * GameScreen.SQUARESIZE);
             font.getData().setScale((float) GameScreen.SQUARESIZE / 18,

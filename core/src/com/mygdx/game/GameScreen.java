@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Game.Hold;
 import com.mygdx.game.Game.Preview;
 import com.mygdx.game.Pieces.Tetronimoes;
 import com.mygdx.game.System.GraphicElements;
@@ -96,7 +97,7 @@ public class GameScreen implements Screen, SprintMode.SprintModeInterface {
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
-
+private boolean isGameStarted=false;
 
     @Override
     public void render(float delta) {
@@ -113,14 +114,17 @@ public class GameScreen implements Screen, SprintMode.SprintModeInterface {
         //background texture
         tris.batch.draw(backgroundTexture, 0, 0, WIDTH, HEIGHT, 0, 0, uRight, vTop);
 
-        preview.displayPreview();
+        if(isGameStarted){
+            currentPiece.drawPosition();
+            ghost.drawGhost(currentPiece.getPiecePosition());
+            preview.displayPreview();
 
-        currentPiece.drawPosition();
-        ghost.drawGhost(currentPiece.getPiecePosition());
-
+        }
         matrix.renderMatrix();
-        graphicElements.drawInterface();
         hold.drawHold();
+
+        graphicElements.drawInterface();
+
         sprintMode.start();
 
         tris.batch.end();
@@ -135,10 +139,17 @@ public class GameScreen implements Screen, SprintMode.SprintModeInterface {
     }
 
     public void newGame() {
+        isGameStarted=true;
         System.out.print("new game");
         matrix.resetAll();
         this.preview = new Preview(unit_texture, SQUARESIZE);
         currentPiece = preview.getNextPiece();
+        this.hold=new Hold();
+    }
+
+    public void gameOver(){
+        isGameStarted=false;
+
     }
 
 
